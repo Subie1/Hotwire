@@ -1,0 +1,28 @@
+{
+  "name": "expressvitetemplate",
+  "version": "1.0.0",
+  "description": "Basic template for having Vite Frontend & Express Backend",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Subie1/ExpressViteTemplate.git"
+  },
+  "keywords": [
+    "Template",
+    "NodeJS",
+    "ReactJS",
+    "Express"
+  ],
+  "author": "Subie",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Subie1/ExpressViteTemplate/issues"
+  },
+  "homepage": "https://github.com/Subie1/ExpressViteTemplate#readme",
+  "dependencies": {
+    "dotenv": "^16.3.1"
+  }
+}

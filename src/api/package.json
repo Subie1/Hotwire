@@ -1,0 +1,30 @@
+{
+  "name": "expressbackend",
+  "version": "1.0.0",
+  "description": "The Express Backend for building the API",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Subie1/ExpressViteTemplate.git"
+  },
+  "keywords": [
+    "Express",
+    "API",
+    "Backend"
+  ],
+  "author": "Subie",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Subie1/ExpressViteTemplate/issues"
+  },
+  "homepage": "https://github.com/Subie1/ExpressViteTemplate#readme",
+  "devDependencies": {
+    "nodemon": "^3.0.2"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
