@@ -18,6 +18,8 @@
     - Easily organise your code by having enfornced syntax real time
 - TailwindCSS (tailwindcss, autoprefixer)
     - Easier way to utilise CSS
+- Axios (axios)
+    - Easily send out HTTP requests
 
 ## Installing
 - This requires `git` & `nodejs` installed.
