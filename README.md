@@ -46,4 +46,9 @@ cd ExpressViteTemplate
     npm i
     ```
 
+# Run
+```
+node .
+```
+
 # Enjoy!
