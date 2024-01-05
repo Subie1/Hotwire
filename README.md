@@ -29,6 +29,12 @@ cd ExpressViteTemplate
 ```
 
 - This is for the basic setup now you need to install every package
+    ## Automatic:
+    ```
+    npm run install-all
+    ```
+
+    ## Manual:
     ### Core Install
     ```
     npm i
