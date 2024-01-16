@@ -4,7 +4,8 @@
   "description": "Basic template for having Vite Frontend & Express Backend",
   "main": "index.js",
   "scripts": {
-    "start": "node .",
+    "dev": "node .",
+    "tauri": "tauri",
     "build": "cd ./src/dashboard && npm run build",
     "install-backend": "cd ./src/api && npm i",
     "install-frontend": "cd ./src/dashboard && npm i",
@@ -28,5 +29,8 @@
   "homepage": "https://github.com/Subie1/ExpressViteTemplate#readme",
   "dependencies": {
     "dotenv": "^16.3.1"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "^1.5.9"
   }
 }

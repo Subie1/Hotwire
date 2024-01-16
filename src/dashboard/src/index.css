@@ -3,24 +3,50 @@
 @tailwind utilities;
 
 @layer base {
-    :root {
-        --text: #060509;
-        --background: #f8f6fb;
-        --primary: #7f61b0;
-        --secondary: #d2a6d3;
-        --accent: #c284b3;
-    }
+	:root {
+		--text: #0f0f0f;
+		--background: #ffffff;
+		--primary: #7e0108;
+		--secondary: #f0f0f0;
+		--accent: #03bafc;
+	}
 
-    .dark {
-        --text: #f6f5fa;
-        --background: #07050b;
-        --primary: #6c4f9c;
-        --secondary: #582c59;
-        --accent: #7b3d6b;
-    }
+	.dark {
+		--text: #f0f0f0;
+		--background: #000000;
+		--primary: #fe7e84;
+		--secondary: #141414;
+		--accent: #04bbfc;
+	}
 }
 
-html, body, #root {
-    width: 100%;
-    height: 100%;
+/* width */
+::-webkit-scrollbar {
+	width: 6px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+	background: var(--background);
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+	background: #343434;
+	border-radius: 16px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+	background: #2e2e2e;
+}
+
+html,
+body,
+#root {
+	width: 100%;
+	height: 100%;
+
+	margin: 0;
+	padding: 0;
 }
