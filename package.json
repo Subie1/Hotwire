@@ -1,36 +1,36 @@
 {
-  "name": "expressvitetemplate",
-  "version": "1.0.0",
-  "description": "Basic template for having Vite Frontend & Express Backend",
-  "main": "index.js",
-  "scripts": {
-    "dev": "node .",
-    "tauri": "tauri",
-    "build": "cd ./src/dashboard && npm run build",
-    "install-backend": "cd ./src/api && npm i",
-    "install-frontend": "cd ./src/dashboard && npm i",
-    "install-all": "npm i && npm run install-backend && npm run install-frontend"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Subie1/ExpressViteTemplate.git"
-  },
-  "keywords": [
-    "Template",
-    "NodeJS",
-    "ReactJS",
-    "Express"
-  ],
-  "author": "Subie",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/Subie1/ExpressViteTemplate/issues"
-  },
-  "homepage": "https://github.com/Subie1/ExpressViteTemplate#readme",
-  "dependencies": {
-    "dotenv": "^16.3.1"
-  },
-  "devDependencies": {
-    "@tauri-apps/cli": "^1.5.9"
-  }
+	"name": "hotwire",
+	"version": "1.0.0",
+	"description": "Organise your songs from video services! ",
+	"main": "index.js",
+	"scripts": {
+		"dev": "node .",
+		"tauri": "tauri",
+		"build": "cd ./src/dashboard && npm run build",
+		"install-backend": "cd ./src/api && npm i",
+		"install-frontend": "cd ./src/dashboard && npm i",
+		"install-all": "npm i && npm run install-backend && npm run install-frontend"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/Subie1/ExpressViteTemplate.git"
+	},
+	"keywords": [
+		"Template",
+		"NodeJS",
+		"ReactJS",
+		"Express"
+	],
+	"author": "Subie",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/Subie1/ExpressViteTemplate/issues"
+	},
+	"homepage": "https://github.com/Subie1/ExpressViteTemplate#readme",
+	"dependencies": {
+		"dotenv": "^16.3.1"
+	},
+	"devDependencies": {
+		"@tauri-apps/cli": "^1.5.9"
+	}
 }
