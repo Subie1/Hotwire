@@ -3,20 +3,21 @@ import { context } from "../../lib/Context";
 import axios from "axios";
 import Icon from "./Icon";
 
-export default function AddModel() {
+export default function PlaylistModel() {
 	const input = useRef(null);
-	const { setDownloadOpened, setSongs, host } = useContext(context);
+	const { setPlaylistsOpen, host, setPlaylists } = useContext(context);
 
-	function DownloadVideo() {
-		setDownloadOpened(false);
+	function AddPlaylist() {
+		setPlaylistsOpen(false);
 		if (!input.current.value.trim().length) return;
 		axios
-			.post(`${host}/api/download/youtube`, {
-				video: input.current.value.trim(),
+			.post(`${host}/api/playlist/create`, {
+				name: input.current.value.trim(),
 			})
-			.then(() => {
-				axios.get(`${host}/api/songs`).then(({ data }) => {
-					setSongs(data);
+			.then(({ data }) => {
+				setPlaylists((previous) => {
+					previous.push(data.id);
+					return previous;
 				});
 			});
 		input.current.value = "";
@@ -24,7 +25,7 @@ export default function AddModel() {
 
 	function CloseModel(event) {
 		if (event.target !== event.currentTarget) return;
-		setDownloadOpened(false);
+		setPlaylistsOpen(false);
 	}
 
 	return (
@@ -33,7 +34,7 @@ export default function AddModel() {
 			className="bg-black bg-opacity-40 z-50 flex-col gap-2 fixed w-full h-full overflow-hidden flex items-center justify-center top-0 left-0"
 		>
 			<header className="text-xs p-2 bg-background rounded-xl">
-				Add a song from youtube
+				Name your playlist
 			</header>
 			<div className="w-3/5 h-16 bg-secondary rounded-2xl flex p-2 gap-1">
 				<input
@@ -42,7 +43,7 @@ export default function AddModel() {
 					className="w-full h-full outline-none bg-background rounded-2xl p-4"
 				/>
 				<div
-					onClick={() => DownloadVideo()}
+					onClick={() => AddPlaylist()}
 					className="flex cursor-pointer items-center justify-center rounded-2xl bg-background p-4"
 				>
 					<Icon name="TbThumbUp" className="fill-text" />

@@ -20,7 +20,8 @@ export default function Settings() {
 
 	return (
 		<main className="w-full h-full m-1 p-3 gap-2 space-y-0 items-start justify-start flex flex-wrap overflow-auto">
-			<div className="w-full h-16 bg-secondary rounded-2xl flex p-2 gap-1">
+			<div className="w-full h-16 bg-secondary items-center justify-center gap-1 rounded-2xl flex p-2">
+				<span className="text-nowrap text-xs opacity-40 p-2">Server URL: </span>
 				<input
                     placeholder={host}
 					ref={input}

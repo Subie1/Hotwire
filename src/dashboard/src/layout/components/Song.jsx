@@ -1,5 +1,6 @@
 import { useContext } from "react";
 import Icon from "./Icon";
+import axios from "axios";
 import { context } from "../../lib/Context";
 import useIsPlaying from "../../hooks/useIsPlaying";
 
@@ -10,8 +11,8 @@ function truncate(input, length) {
 	return input;
 }
 
-export default function Song({ name, artist, url, thumbnail }) {
-	const { song, setSong } = useContext(context);
+export default function Song({ name, artist, url, thumbnail, file }) {
+	const { song, setSong, currentPlaylist, host, songs, setSongs } = useContext(context);
 	const isPlaying = useIsPlaying();
 
 	function ToggleSong() {
@@ -20,8 +21,38 @@ export default function Song({ name, artist, url, thumbnail }) {
 		setSong({ url, artist, name, thumbnail });
 	}
 
+	async function RemoveSong() {
+		await axios.get(`${host}/api/playlist/${currentPlaylist}/remove/${file}`);
+		
+		axios
+			.get(`${host}/api/playlist/${currentPlaylist}`)
+			.then(({ data, status }) => {
+				if (status !== 200) return setSongs([]);
+				if (!data) return setSongs([]);
+				if (!data.songs) return setSongs([]);
+
+				axios
+					.get(`${host}/api/songs`)
+					.then(({ data: d, status }) => {
+						if (status !== 200) return setSongs([]);
+						if (!d.length) return setSongs([]);
+						if (!d[0].name) return setSongs([]);
+
+						const res = [];
+
+						for (const song of d) {
+							if (data.songs.includes(song.file)) res.push(song);
+						}
+
+						setSongs(res);
+					})
+					.catch(() => setSongs([]));
+			})
+			.catch(() => setSongs([]));
+	}
+
 	return (
-		<div className="rounded-lg w-full md:w-auto relative bg-secondary shadow-lg shadow-black w-fit h-fit p-4 gap-2 flex flex-col">
+		<div className="rounded-lg m-1 left bg-secondary shadow-lg shadow-black w-fit h-fit p-4 gap-2 inline-block">
 			<div className="w-full md:w-32 md:h-32 rounded-lg shadow-lg shadow-black flex items-center justify-center bg-background overflow-hidden">
 				{thumbnail ? (
 					<img
@@ -39,6 +70,13 @@ export default function Song({ name, artist, url, thumbnail }) {
 				<div className="flex flex-col w-fit h-fit">
 					<h1 className="text-white">{truncate(name, 8)}</h1>
 					<span className="text-xs text-gray-500">{truncate(artist, 12)}</span>
+					{currentPlaylist ? (
+						<a onClick={() => RemoveSong()} className="w-fit h-fit p-2 bg-background opacity-40 rounded-lg cursor-pointer text-xs">
+							<Icon name="TbTrash" />
+						</a>
+					) : (
+						""
+					)}
 				</div>
 				<a
 					onClick={() => ToggleSong()}

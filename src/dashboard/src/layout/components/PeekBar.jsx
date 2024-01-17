@@ -3,6 +3,7 @@ import { useRef, useState, useEffect } from "react";
 function PeekBar({ videoId }) {
 	const videoRef = useRef(null);
 	const [currentTime, setCurrentTime] = useState(0);
+	const [isDragging, setIsDragging] = useState(false);
 
 	useEffect(() => {
 		if (!videoRef.current) videoRef.current = document.getElementById(videoId);
@@ -14,21 +15,37 @@ function PeekBar({ videoId }) {
 			setCurrentTime(video.currentTime);
 		};
 
+		const handleMouseDown = () => {
+			setIsDragging(true);
+		};
+
+		const handleMouseUp = () => {
+			setIsDragging(false);
+		};
+
 		video.addEventListener("timeupdate", handleTimeUpdate);
+		document.addEventListener("mousedown", handleMouseDown);
+		document.addEventListener("mouseup", handleMouseUp);
 
 		return () => {
 			video.removeEventListener("timeupdate", handleTimeUpdate);
+			document.removeEventListener("mousedown", handleMouseDown);
+			document.removeEventListener("mouseup", handleMouseUp);
 		};
 	}, [videoRef, currentTime]);
 
 	const handleSeek = (event) => {
-        if (!videoRef.current) return;
-        if (!videoRef.current.duration) return;
+		if (!videoRef.current || !videoRef.current.duration) return;
 
 		const seekPosition =
 			event.nativeEvent.offsetX / seekBarRef.current.offsetWidth;
 		const newTime = videoRef.current.duration * seekPosition;
 		videoRef.current.currentTime = newTime;
+	};
+
+	const handleDrag = (event) => {
+		if (!isDragging) return;
+		handleSeek(event);
 	};
 
 	const seekBarRef = useRef(null);
@@ -40,12 +57,15 @@ function PeekBar({ videoId }) {
 				ref={seekBarRef}
 				className="w-full h-1 flex items-center bg-background rounded-full relative cursor-pointer"
 				onClick={handleSeek}
+				onMouseMove={handleDrag}
 			>
 				<div
 					style={{
 						left: videoRef.current
 							? videoRef.current.duration
-								? `${Math.floor((currentTime / videoRef.current.duration) * 100)}%`
+								? `${Math.floor(
+										(currentTime / videoRef.current.duration) * 100
+								  )}%`
 								: "0"
 							: "0",
 					}}

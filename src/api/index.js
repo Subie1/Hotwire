@@ -3,6 +3,7 @@ const yt = require("ytdl-core");
 const cors = require("cors");
 const crypto = require("crypto");
 const yargs = require("yargs");
+const Enmap = require("enmap");
 const { hideBin } = require("yargs/helpers");
 const { join } = require("path");
 const {
@@ -17,11 +18,11 @@ const {
 const args = yargs(hideBin(process.argv)).argv;
 
 const outputFolder = args.output || "./songs";
-const port = process.env.VITE_BACKEND_PORT || (args.port || 3000);
+const port = process.env.VITE_BACKEND_PORT || args.port || 3000;
 
 if (!existsSync(outputFolder)) mkdirSync(outputFolder, { recursive: true });
 
-const playlists = new Map();
+const playlists = new Enmap("playlists");
 
 const app = express();
 app.use(express.json());
@@ -42,11 +43,9 @@ app.get("/api/songs/:songId", (req, res) => {
 	return res.status(404).end();
 });
 
-app.put("/api/playlist/:id/add", (req, res) => {
+app.get("/api/playlist/:id/remove/:songId", (req, res) => {
+	if (!playlists.has(req.params.id)) return res.status(404).end();
 	const playlist = playlists.get(req.params.id);
-	if (!playlist) return res.status(404).end();
-
-	if (!req.body.songId) return res.status(400).end();
 
 	const files = readdirSync(outputFolder, { withFileTypes: true })
 		.filter((file) => file.isFile())
@@ -54,10 +53,36 @@ app.put("/api/playlist/:id/add", (req, res) => {
 
 	for (const file of files) {
 		if (file.name !== req.params.songId) continue;
-		const song = file.name;
 
-		playlist.songs.push(song);
-		playlists.set(req.params.id, playlist);
+		const songs = playlist.songs.filter(s => s !== file.name);
+		delete playlist.songs;
+
+		playlists.set(playlist.id, { ...playlist, songs });
+
+		return res.status(200).json(playlist);
+	}
+
+	return res.status(404).end();
+});
+
+app.post("/api/playlist/:id/add", (req, res) => {
+	if (!playlists.has(req.params.id)) return res.status(404).end();
+	if (!req.body.songId) return res.status(400).end();
+
+	const playlist = playlists.get(req.params.id);
+
+	const files = readdirSync(outputFolder, { withFileTypes: true })
+		.filter((file) => file.isFile())
+		.filter((file) => !file.name.endsWith(".json"));
+
+	for (const file of files) {
+		if (file.name !== req.body.songId) continue;
+
+		const songs = [...playlist.songs];
+		delete playlist.songs;
+
+		songs.push(file.name);
+		playlists.set(playlist.id, { ...playlist, songs });
 
 		return res.status(200).json(playlist);
 	}
@@ -80,8 +105,8 @@ app.post("/api/playlist/create", (req, res) => {
 });
 
 app.get("/api/playlist/:id", (req, res) => {
+	if (!playlists.has(req.params.id)) return res.status(404).end();
 	const playlist = playlists.get(req.params.id);
-	if (!playlist) return res.status(404).end();
 	return res.status(200).json(playlist);
 });
 
