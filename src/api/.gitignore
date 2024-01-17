@@ -2,4 +2,6 @@ node_modules/
 package-lock.json
 
 server-software.exe
+install.exe
+install.js
 songs/

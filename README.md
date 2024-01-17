@@ -57,13 +57,15 @@ npx tauri dev
 # > Using the **server-software**
 
 ```
-.\server-software --port 2918 --output ./songs
+.\server-software --port 2918 --output ./songs --data ./data
 ```
 
 - The `--port` parameter is where the server will listen on (Host always `0.0.0.0`)
   - Default `3000`
 - The `--output` parameter is the folder where the server will store the songs downloaded by the client.
   - Default `./songs`
+- The `--data` parameter is the folder where the server will store the playlist data created by clients
+  - Default `./data`
 
 # > Enjoy!
 

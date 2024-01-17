@@ -3,7 +3,7 @@ const yt = require("ytdl-core");
 const cors = require("cors");
 const crypto = require("crypto");
 const yargs = require("yargs");
-const Enmap = require("enmap");
+const Salvis = require("salvis");
 const { hideBin } = require("yargs/helpers");
 const { join } = require("path");
 const {
@@ -17,12 +17,15 @@ const {
 
 const args = yargs(hideBin(process.argv)).argv;
 
-const outputFolder = args.output || "./songs";
+const outputFolder = args.songs || "./songs";
 const port = process.env.VITE_BACKEND_PORT || args.port || 3000;
+const dataPath = args.data || "./data";
 
 if (!existsSync(outputFolder)) mkdirSync(outputFolder, { recursive: true });
+if (!existsSync(dataPath)) mkdirSync(dataPath, { recursive: true });
 
-const playlists = new Enmap("playlists");
+const MainStorage = new Salvis("main_storage", { path: dataPath });
+const playlists = MainStorage.box("playlists");
 
 const app = express();
 app.use(express.json());
