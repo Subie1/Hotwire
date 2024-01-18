@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Noto%20Sans%20Duployan');
+@import url("https://fonts.googleapis.com/css?family=Noto%20Sans%20Duployan");
 
 @tailwind base;
 @tailwind components;
@@ -6,11 +6,11 @@
 
 @layer base {
 	:root {
-		--text: #0f0f0f;
-		--background: #ffffff;
-		--primary: #7e0108;
-		--secondary: #f0f0f0;
-		--accent: #03bafc;
+		--text: #0d171c;
+		--background: #fbfdfe;
+		--primary: #4198c3;
+		--secondary: #9acde4;
+		--accent: #5bb1dc;
 	}
 
 	.dark {
@@ -19,6 +19,35 @@
 		--primary: #fe7e84;
 		--secondary: #141414;
 		--accent: #04bbfc;
+	}
+
+	.fruit-light {
+		--text: #1b0317;
+		--background: #fdf2fc;
+		--primary: #2fd5e5;
+		--secondary: #f18ca5;
+		--accent: #e9564f;
+	}
+	.fruit-dark {
+		--text: #fce3f8;
+		--background: #0d020c;
+		--primary: #1ac2d1;
+		--secondary: #710e27;
+		--accent: #b11e16;
+	}
+	.neon-light {
+		--text: #080408;
+		--background: #fcf9fc;
+		--primary: #b055b6;
+		--secondary: #d59fd9;
+		--accent: #c471ca;
+	}
+	.neon-dark {
+		--text: #fcf8fc;
+		--background: #070307;
+		--primary: #a549ab;
+		--secondary: #5b265f;
+		--accent: #88348d;
 	}
 }
 
@@ -46,7 +75,7 @@
 html,
 body,
 #root {
-	font-family: 'Noto Sans Duployan', sans-serif;
+	font-family: "Noto Sans Duployan", sans-serif;
 
 	width: 100%;
 	height: 100%;

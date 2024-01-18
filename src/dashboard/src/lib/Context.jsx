@@ -17,6 +17,7 @@ export function ContextProvider() {
 	const [canLoad, setCanLoad] = useState(false);
 	const [_token, _setToken] = useLocalStorage("_token", false);
 	const [playlists, setPlaylists] = useLocalStorage("playlists", []);
+	const [theme, setTheme] = useLocalStorage("themes", "dark");
 	const [isDownloadOpen, setDownloadOpened] = useState(false);
 	const [isPlaylistsOpen, setPlaylistsOpen] = useState(false);
 	const [isAddOpen, setAddOpen] = useState(false);
@@ -29,7 +30,6 @@ export function ContextProvider() {
 		thumbnail: "",
 	});
 	const [page, setPage] = useState(-1);
-
 	useEffect(() => {
 		if (!_token) return;
 
@@ -38,11 +38,11 @@ export function ContextProvider() {
 			config.headers.Authorization = _token;
 			return config;
 		});
-	}, [_token])
+	}, [_token]);
 
 	useEffect(() => {
 		if (page < 0 && _token) setPage(0);
-	}, [_token])
+	}, [_token]);
 
 	useEffect(() => {
 		if (page === 1) return;
@@ -84,6 +84,8 @@ export function ContextProvider() {
 				setHost,
 				playlists,
 				setPlaylists,
+				theme,
+				setTheme,
 			}}
 		>
 			<Layout />
