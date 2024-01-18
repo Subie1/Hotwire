@@ -19,6 +19,7 @@ app.use("/api/playlists", require("./src/routes/Playlists"));
 app.use("/api/songs", require("./src/routes/Songs"));
 app.use("/api/upload", require("./src/routes/Upload"));
 app.use("/api/auth", require("./src/routes/Authentication"));
+app.use("/api/users", require("./src/routes/Users"));
 
 const port = process.env.VITE_BACKEND_PORT || (process.argv.port ?? 3000);
 app.listen(port, () =>

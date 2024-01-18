@@ -60,7 +60,7 @@ router.post("/register", (req, res) => {
 		.update(req.body.password.trim())
 		.digest("hex");
 
-	const user = { id, username, name: req.body.name.trim(), token, admin: members.length ? false : true };
+	const user = { id, username, name: req.body.name.trim().toLowerCase().replace(" ", "_"), token, admin: members.length ? false : true };
 
 	users.set(id, user);
 	return res.status(201).json(user);

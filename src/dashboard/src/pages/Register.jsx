@@ -49,19 +49,19 @@ export default function Register() {
 				<div id="form_data" className="w-5/12 flex flex-col gap-4">
 					<input
 						type="text"
-						className="w-full py-2 placeholder-text bg-transparent border-b border-b-text opacity-30 outline-none"
+						className="w-full py-2 transition-all duration-200 focus:opacity-50 placeholder-text bg-transparent border-b border-b-text opacity-30 outline-none"
 						placeholder="Username"
 						name="name"
 					/>
 					<input
 						type="password"
-						className="w-full py-2 flex items-center justify-between placeholder-text bg-transparent border-b border-b-text opacity-30 outline-none"
+						className="w-full py-2 transition-all duration-200 focus:opacity-50 flex items-center justify-between placeholder-text bg-transparent border-b border-b-text opacity-30 outline-none"
 						placeholder="Password"
 						name="password"
 					/>
 					<input
 						type="password"
-						className="w-full py-2 placeholder-text bg-transparent border-b border-b-text opacity-30 outline-none"
+						className="w-full py-2 transition-all duration-200 focus:opacity-50 placeholder-text bg-transparent border-b border-b-text opacity-30 outline-none"
 						placeholder="Confirm Password"
 						name="passwordConfirm"
 					/>
