@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css?family=Noto%20Sans%20Duployan');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -44,6 +46,8 @@
 html,
 body,
 #root {
+	font-family: 'Noto Sans Duployan', sans-serif;
+
 	width: 100%;
 	height: 100%;
 

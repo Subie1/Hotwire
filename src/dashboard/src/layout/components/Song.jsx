@@ -12,7 +12,7 @@ function truncate(input, length) {
 }
 
 export default function Song({ name, artist, url, thumbnail, file }) {
-	const { song, setSong, currentPlaylist, host, setSongs } =
+	const { song, setSong, currentPlaylist, host, setSongs, setContextElements } =
 		useContext(context);
 	const isPlaying = useIsPlaying();
 	const [blob, setBlob] = useState("");
@@ -64,7 +64,16 @@ export default function Song({ name, artist, url, thumbnail, file }) {
 	}
 
 	return (
-		<div className="rounded-lg z-10 m-1 left bg-secondary shadow-lg shadow-black w-fit h-fit p-4 gap-2 inline-block">
+		<div
+			onContextMenu={() =>
+				currentPlaylist
+					? setContextElements([
+							{ name: "Delete", icon: "TbTrash", action: RemoveSong },
+					  ])
+					: ""
+			}
+			className="rounded-lg z-10 m-1 left bg-secondary shadow-lg shadow-black w-fit h-fit p-4 gap-2 inline-block"
+		>
 			<div className="w-full md:w-32 md:h-32 rounded-lg shadow-lg shadow-black flex items-center justify-center bg-background overflow-hidden">
 				{thumbnail ? (
 					<img

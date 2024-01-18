@@ -21,6 +21,7 @@ export function ContextProvider() {
 	const [isPlaylistsOpen, setPlaylistsOpen] = useState(false);
 	const [isAddOpen, setAddOpen] = useState(false);
 	const [currentPlaylist, setCurrentPlaylist] = useState(false);
+	const [contextElements, setContextElements] = useState([]);
 	const [song, setSong] = useState({
 		url: "",
 		artist: "",
@@ -60,6 +61,8 @@ export function ContextProvider() {
 	return (
 		<context.Provider
 			value={{
+				contextElements,
+				setContextElements,
 				canLoad,
 				_token,
 				_setToken,

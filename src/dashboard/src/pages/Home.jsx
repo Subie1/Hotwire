@@ -5,7 +5,15 @@ import { context } from "../lib/Context";
 import AddToPlaylist from "../layout/components/AddToPlaylist";
 
 export default function HomePage() {
-	const { songs, setSongs, host, currentPlaylist } = useContext(context);
+	const {
+		songs,
+		setSongs,
+		host,
+		currentPlaylist,
+		setAddOpen,
+		setDownloadOpened,
+		setContextElements,
+	} = useContext(context);
 
 	useEffect(() => {
 		if (currentPlaylist) {
@@ -56,8 +64,32 @@ export default function HomePage() {
 		}
 	}, [currentPlaylist]);
 
+	function LoadContext(event) {
+		if (currentPlaylist && event.target !== event.currentTarget) return;
+		setContextElements(
+			currentPlaylist
+				? [
+						{
+							name: "Add Song",
+							icon: "TbMusicPlus",
+							action: () => setAddOpen(true),
+						},
+				  ]
+				: [
+						{
+							name: "Upload Song",
+							icon: "TbMusicPlus",
+							action: () => setDownloadOpened(true),
+						},
+				  ]
+		);
+	}
+
 	return (
-		<main className="w-full z-10 h-full m-1 p-3 overflow-y-auto relative">
+		<main
+			onContextMenu={LoadContext}
+			className="w-full z-10 h-full m-1 p-3 overflow-y-auto relative"
+		>
 			{songs.map((song) => {
 				if (!song.file) return "";
 				return (

@@ -5,7 +5,7 @@ import Icon from "./Icon";
 
 export default function AddToPlaylistModel() {
 	const [queries, setQueries] = useState([]);
-	const { setAddOpen, host, isAddOpen, currentPlaylist, songs, setSongs } =
+	const { setAddOpen, host, isAddOpen, currentPlaylist, songs, setSongs, setContextElements } =
 		useContext(context);
 
 	useEffect(() => {
@@ -84,17 +84,18 @@ export default function AddToPlaylistModel() {
 			<header className="text-xs p-2 bg-background rounded-xl">
 				Choose a song to add to the AddPlaylist
 			</header>
-			<div className="w-fit bg-secondary rounded-2xl flex flex-col p-2 gap-1">
-				<div>
+			<div className="w-[calc(100%-100px)] bg-gray-900 border-2 overflow-y-auto border-gray-800 border-opacity-30 bg-opacity-30 backdrop-blur-lg p-2 flex flex-col gap-1">
+				<div className="flex flex-col gap-2">
 					{queries.map((query) => (
 						<div
+							onContextMenu={() => setContextElements([{ name: "Add Song", icon: "TbMusicPlus", action: () => AddSong(query) }])}
 							key={query.file}
-							className="w-fit h-fit flex gap-2 items-center justify-center"
+							className="h-fit flex gap-2 w-full items-center justify-between"
 						>
 							<span>{query.name}</span>
 							<a
 								onClick={() => AddSong(query)}
-								className="p-2 flex items-center justify-center rounded-lg bg-background cursor-pointer"
+								className="p-2 flex items-center justify-center rounded-lg bg-gradient-to-br from-primary to-accent cursor-pointer"
 							>
 								<Icon name="TbThumbUp" />
 							</a>

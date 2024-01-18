@@ -46,13 +46,13 @@ export default function Login() {
 				<div id="form_data" className="w-5/12 flex flex-col gap-4">
 					<input
 						type="text"
-						className="w-full placeholder-text bg-transparent border-b border-b-text opacity-30 outline-none"
+						className="w-full py-2 placeholder-text bg-transparent border-b border-b-text opacity-30 outline-none"
 						placeholder="Username"
 						name="name"
 					/>
 					<input
 						type="password"
-						className="w-full placeholder-text bg-transparent border-b border-b-text opacity-30 outline-none"
+						className="w-full py-2 placeholder-text bg-transparent border-b border-b-text opacity-30 outline-none"
 						placeholder="Password"
 						name="password"
 					/>
@@ -65,7 +65,7 @@ export default function Login() {
 					</button>
 				</div>
 			</div>
-			<div className="w-full flex gap-6 items-center justify-center">
+			<div className="w-full text-xs flex gap-6 items-center justify-center">
 				<span className="opacity-30">Don&apos;t have an account?</span>
 				<button
 					onClick={() => setPage(-2)}
