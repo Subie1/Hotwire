@@ -29,6 +29,7 @@ export default function Layout() {
 		canLoad,
 		contextElements,
 		setContextElements,
+		theme,
 	} = useContext(context);
 
 	const [isContext, setIsContext] = useState(false);
@@ -36,7 +37,6 @@ export default function Layout() {
 
 	function HandleContextMenu(event) {
 		event.preventDefault();
-		console.log(!!event.currentTarget.oncontextmenu);
 
 		const x = event.pageX - 10 + "px";
 		const y = event.pageY - 10 + "px";
@@ -48,7 +48,7 @@ export default function Layout() {
 	return (
 		<main
 			onContextMenu={(event) => HandleContextMenu(event)}
-			className="dark w-full overflow-hidden flex h-full bg-background text-text"
+			className={`${theme} w-full overflow-hidden flex h-full bg-background text-text`}
 		>
 			{isContext ? (
 				<ContextMenu

@@ -29,7 +29,7 @@ export function ContextProvider() {
 		thumbnail: "",
 	});
 	const [page, setPage] = useState(-1);
-
+	const [theme, setTheme] = useState("light");
 	useEffect(() => {
 		if (!_token) return;
 
@@ -38,11 +38,11 @@ export function ContextProvider() {
 			config.headers.Authorization = _token;
 			return config;
 		});
-	}, [_token])
+	}, [_token]);
 
 	useEffect(() => {
 		if (page < 0 && _token) setPage(0);
-	}, [_token])
+	}, [_token]);
 
 	useEffect(() => {
 		if (page === 1) return;
@@ -84,6 +84,8 @@ export function ContextProvider() {
 				setHost,
 				playlists,
 				setPlaylists,
+				theme,
+				setTheme,
 			}}
 		>
 			<Layout />
