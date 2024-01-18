@@ -10,6 +10,8 @@ global.MainStorage = new Storage("main_storage", { path: dataPath });
 if (!existsSync(outputFolder)) mkdirSync(outputFolder, { recursive: true });
 if (!existsSync(dataPath)) mkdirSync(dataPath, { recursive: true });
 if (!existsSync(configPath)) {
-    console.error(` BACKEND `.bgRed.black + " Config doesn't exist in: " + configPath.yellow);
-    process.exit(-1);
+	console.error(
+		" BACKEND ".bgRed.black + " Config doesn't exist in: " + configPath.yellow
+	);
+	process.exit(-1);
 }

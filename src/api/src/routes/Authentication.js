@@ -1,6 +1,7 @@
 const express = require("express");
 const { createHash, randomBytes } = require("crypto");
 const canAuthenticate = require("../lib/canAuthenticate");
+const User = require("../lib/User");
 
 const algorithm = process.argv.algorithm || "sha256";
 const users = MainStorage.box("users");
@@ -18,26 +19,15 @@ router.get("/:id", (req, res) => {
 
 	/* Sensitive Data */
 	delete user.token;
-
 	return res.status(200).json(user);
 });
 
 router.post("/login", (req, res) => {
 	if (!canAuthenticate(req, res)) return;
 
-	const members = users.values();
-
-	for (const member of Array.from(members)) {
-		if (member.name !== req.body.name) continue;
-		if (
-			member.token !==
-			createHash(algorithm).update(req.body.password).digest("hex")
-		)
-			continue;
-
-		return res.status(200).json(member);
-	}
-
+	const user = User(req.headers.authorization);
+	if (user) return res.status(200).json(user);
+	
 	return res.status(403).end("Name or password is incorrect.");
 });
 
@@ -56,11 +46,18 @@ router.post("/register", (req, res) => {
 			? req.body.username.trim()
 			: `User_${id}`
 		: `User_${id}`;
-	const token = createHash(algorithm)
-		.update(req.body.password.trim())
-		.digest("hex");
+	const token = `${id}.${createHash(algorithm)
+		.update(`${req.body.password.trim()}`)
+		.update(createHash(algorithm).update(id, "utf8").digest("hex"))
+		.digest("hex")}`;
 
-	const user = { id, username, name: req.body.name.trim().toLowerCase().replace(" ", "_"), token, admin: members.length ? false : true };
+	const user = {
+		id,
+		username,
+		name: req.body.name.trim().toLowerCase().replace(" ", "_"),
+		token,
+		admin: members.length ? false : true,
+	};
 
 	users.set(id, user);
 	return res.status(201).json(user);

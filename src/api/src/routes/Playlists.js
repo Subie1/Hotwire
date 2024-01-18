@@ -1,6 +1,7 @@
 const express = require("express");
 const crypto = require("node:crypto");
 const { readdirSync } = require("fs");
+const User = require("../lib/User");
 
 const outputFolder = process.argv.songs || "./src/songs";
 const playlists = MainStorage.box("playlists");
@@ -64,11 +65,15 @@ router.put("/:id/add", (req, res) => {
 router.post("/create", (req, res) => {
 	if (!req.body.name) return res.status(400).end();
 
+	const user = User(req.headers.authorization);
+
 	const id = crypto.randomBytes(5).toString("hex");
 	const data = {
 		name: req.body.name,
 		songs: [],
 		id,
+		author: user.id,
+		private: false,
 	};
 
 	playlists.set(id, data);

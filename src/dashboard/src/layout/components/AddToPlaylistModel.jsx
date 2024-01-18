@@ -5,8 +5,15 @@ import Icon from "./Icon";
 
 export default function AddToPlaylistModel() {
 	const [queries, setQueries] = useState([]);
-	const { setAddOpen, host, isAddOpen, currentPlaylist, songs, setSongs, setContextElements } =
-		useContext(context);
+	const {
+		setAddOpen,
+		host,
+		isAddOpen,
+		currentPlaylist,
+		songs,
+		setSongs,
+		setContextElements,
+	} = useContext(context);
 
 	useEffect(() => {
 		try {
@@ -88,7 +95,15 @@ export default function AddToPlaylistModel() {
 				<div className="flex flex-col gap-2">
 					{queries.map((query) => (
 						<div
-							onContextMenu={() => setContextElements([{ name: "Add Song", icon: "TbMusicPlus", action: () => AddSong(query) }])}
+							onContextMenu={() =>
+								setContextElements([
+									{
+										name: "Add Song",
+										icon: "TbMusicPlus",
+										action: () => AddSong(query),
+									},
+								])
+							}
 							key={query.file}
 							className="h-fit flex gap-2 w-full items-center justify-between"
 						>

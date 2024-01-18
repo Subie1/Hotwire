@@ -32,7 +32,6 @@ export function ContextProvider() {
 
 	useEffect(() => {
 		if (!_token) return;
-		setCanLoad(true);
 
 		axios.interceptors.request.use((config) => {
 			if (typeof config.headers.Authorization === "string") return config;
@@ -52,7 +51,8 @@ export function ContextProvider() {
 		axios
 			.get(`${host}/api/auth/ping`)
 			.then(({ status }) => {
-				if (status === 200) return;
+				if (status === 200) return setCanLoad(true);
+				setCanLoad(false);
 				return setPage(-1);
 			})
 			.catch(() => setPage(-1));

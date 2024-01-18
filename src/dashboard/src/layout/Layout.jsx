@@ -16,7 +16,7 @@ const CurrentPage = () => {
 	const { page } = useContext(context);
 	if (page === 0) return <Home />;
 	if (page === 1) return <Settings />;
-	if (page === -1) return <Login />
+	if (page === -1) return <Login />;
 	if (page === -2) return <Register />;
 	return <Home />;
 };
@@ -36,6 +36,7 @@ export default function Layout() {
 
 	function HandleContextMenu(event) {
 		event.preventDefault();
+		console.log(!!event.currentTarget.oncontextmenu);
 
 		const x = event.pageX - 10 + "px";
 		const y = event.pageY - 10 + "px";

@@ -15,6 +15,9 @@ module.exports = {
   settings: { react: { version: '18.2' } },
   plugins: ['react-refresh'],
   rules: {
+    'react-hooks/exhaustive-deps': [
+      'off'
+    ],
     'no-mixed-spaces-and-tabs': [
       'off'
     ],
