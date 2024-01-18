@@ -1,6 +1,5 @@
 import { useContext, useRef } from "react";
 import { context } from "../lib/Context";
-import { useState } from "react";
 import Icon from "../layout/components/Icon";
 
 export default function Settings() {
