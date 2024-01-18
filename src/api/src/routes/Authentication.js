@@ -45,9 +45,9 @@ router.post("/login", (req, res) => {
 router.post("/register", (req, res) => {
 	if (!canAuthenticate(req, res, true)) return;
 
-	const members = users.values();
+	const members = Array.from(users.values());
 
-	for (const member of Array.from(members))
+	for (const member of members)
 		if (member.name === req.body.name)
 			return res.status(406).end("Name already in use.");
 
@@ -61,7 +61,7 @@ router.post("/register", (req, res) => {
 		.update(req.body.password.trim())
 		.digest("hex");
 
-	const user = { id, username, name: req.body.name.trim(), token, admin: false };
+	const user = { id, username, name: req.body.name.trim(), token, admin: members.length ? false : true };
 
 	users.set(id, user);
 	res.cookie("_token", token, { maxAge: 900000, signed: true, httpOnly: true });
