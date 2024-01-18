@@ -32,7 +32,7 @@ npm run build
 #### Building the **server-software** using [<u>pkg</u>](https://github.com/vercel/pkg)
 
 ```
-pkg ./src/api/index.js --targets node18-win-x64 --output server-software.exe
+pkg ./src/api/index.js --targets latest --output server-software.exe
 ```
 
 # > Running
