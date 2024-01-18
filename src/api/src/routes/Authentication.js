@@ -1,7 +1,6 @@
 const express = require("express");
 const { createHash, randomBytes } = require("crypto");
 const canAuthenticate = require("../lib/canAuthenticate");
-const User = require("../lib/User");
 
 const algorithm = process.argv.algorithm || "sha256";
 const users = MainStorage.box("users");
@@ -25,9 +24,17 @@ router.get("/:id", (req, res) => {
 router.post("/login", (req, res) => {
 	if (!canAuthenticate(req, res)) return;
 
-	const user = User(req.headers.authorization);
-	if (user) return res.status(200).json(user);
-	
+	for (const member of Array.from(users.values())) {
+		if (!member.id) continue;
+
+		const token = `${member.id}.${createHash(algorithm)
+			.update(req.body.password.trim())
+			.update(createHash(algorithm).update(member.id, "utf8").digest("hex"))
+			.digest("hex")}`;
+
+		if (member.token === token) return res.status(200).json(member);
+	}
+
 	return res.status(403).end("Name or password is incorrect.");
 });
 
