@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import Icon from "./Icon";
 import axios from "axios";
 import { context } from "../../lib/Context";
@@ -15,11 +15,20 @@ export default function Song({ name, artist, url, thumbnail, file }) {
 	const { song, setSong, currentPlaylist, host, setSongs } =
 		useContext(context);
 	const isPlaying = useIsPlaying();
+	const [blob, setBlob] = useState("");
 
-	function ToggleSong() {
+	async function ToggleSong() {
 		const player = document.getElementById("music_player");
-		if (song.url === url && isPlaying) return player.pause();
-		setSong({ url, artist, name, thumbnail });
+		if (song.url === blob && isPlaying) return player.pause();
+
+		axios.get(url, { responseType: "blob" }).then(({ data }) => {
+			const newBlob = (window.URL || window.webkitURL).createObjectURL(
+				new Blob([data])
+			);
+
+			setBlob(newBlob);
+			setSong({ url: newBlob, artist, name, thumbnail });
+		});
 	}
 
 	async function RemoveSong() {
@@ -64,7 +73,7 @@ export default function Song({ name, artist, url, thumbnail, file }) {
 					></img>
 				) : (
 					<video
-						src={url}
+						src={blob}
 						className="w-full object-fill h-full min-h-full min-w-full max-h-full max-w-full"
 					></video>
 				)}
@@ -90,7 +99,7 @@ export default function Song({ name, artist, url, thumbnail, file }) {
 				>
 					<Icon
 						name={
-							song.url === url && isPlaying
+							song.url === blob && isPlaying
 								? "TbPlayerPauseFilled"
 								: "TbPlayerPlayFilled"
 						}

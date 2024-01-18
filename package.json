@@ -1,6 +1,6 @@
 {
 	"name": "hotwire",
-	"version": "1.2.0",
+	"version": "1.2.1",
 	"description": "Organise your songs from video services! ",
 	"main": "index.js",
 	"scripts": {

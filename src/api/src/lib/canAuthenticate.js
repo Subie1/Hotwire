@@ -4,7 +4,7 @@ const configPath = process.argv.config || "./config.json";
 const config = JSON.parse(readFileSync(configPath, "utf-8"));
 
 module.exports = (req, res, isRegister = false) => {
-	if (req.cookies["_token"]) {
+	if (req.headers.authorization) {
 		res.status(403).end("Already logged in.");
 		return false;
 	}

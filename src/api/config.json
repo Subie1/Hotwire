@@ -5,7 +5,5 @@
     "MAX_PASSWORD_LENGTH": 40,
     "MIN_PASSWORD_LENGTH": 8,
 
-    "ID_BYTE_SIZE": 6,
-
-    "PRIVATE_KEY": "CHANGE_ME"
+    "ID_BYTE_SIZE": 6
 }

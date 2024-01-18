@@ -35,7 +35,6 @@ router.post("/login", (req, res) => {
 		)
 			continue;
 
-		res.cookie("_token", member.token, { expires: new Date(Date.now() + 9999999), signed: true });
 		return res.status(200).json(member);
 	}
 
@@ -64,8 +63,6 @@ router.post("/register", (req, res) => {
 	const user = { id, username, name: req.body.name.trim(), token, admin: members.length ? false : true };
 
 	users.set(id, user);
-	res.cookie("_token", token, { maxAge: 900000, signed: true, httpOnly: true });
-
 	return res.status(201).json(user);
 });
 

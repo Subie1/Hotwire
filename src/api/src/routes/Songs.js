@@ -18,6 +18,7 @@ router.get("/", (_, res) => {
 });
 
 router.get("/:songId", (req, res) => {
+	console.log(req.headers.authorization);
 	const files = readdirSync(outputFolder, { withFileTypes: true })
 		.filter((file) => file.isFile())
 		.filter((file) => !file.name.endsWith(".json"));

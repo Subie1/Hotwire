@@ -1,6 +1,6 @@
 {
   "name": "expressbackend",
-  "version": "1.2.0",
+  "version": "0.0.0",
   "description": "The Express Backend for building the API",
   "main": "index.js",
   "scripts": {
@@ -26,7 +26,6 @@
   },
   "dependencies": {
     "colors": "^1.4.0",
-    "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "express": "^4.18.2",
     "salvis": "^1.3.5",

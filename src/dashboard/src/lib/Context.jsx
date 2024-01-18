@@ -1,11 +1,12 @@
 import { createContext, useEffect, useState } from "react";
-import useLocalStorage from "../hooks/useLocalStorage";
+import { useLocalStorage } from "@uidotdev/usehooks";
 
 import Layout from "../layout/Layout";
 import axios from "axios";
 export const context = createContext();
 
-axios.defaults.withCredentials = true;
+const source = axios.CancelToken.source();
+axios.defaults.cancelToken = source.token;
 
 export function ContextProvider() {
 	const [songs, setSongs] = useState([]);
@@ -13,6 +14,8 @@ export function ContextProvider() {
 		"host",
 		`http://localhost:${import.meta.env.VITE_BACKEND_PORT ?? 3000}`
 	);
+	const [canLoad, setCanLoad] = useState(false);
+	const [_token, _setToken] = useLocalStorage("_token", false);
 	const [playlists, setPlaylists] = useLocalStorage("playlists", []);
 	const [isDownloadOpen, setDownloadOpened] = useState(false);
 	const [isPlaylistsOpen, setPlaylistsOpen] = useState(false);
@@ -24,7 +27,22 @@ export function ContextProvider() {
 		name: "",
 		thumbnail: "",
 	});
-	const [page, setPage] = useState(0);
+	const [page, setPage] = useState(-1);
+
+	useEffect(() => {
+		if (!_token) return;
+		setCanLoad(true);
+
+		axios.interceptors.request.use((config) => {
+			if (typeof config.headers.Authorization === "string") return config;
+			config.headers.Authorization = _token;
+			return config;
+		});
+	}, [_token])
+
+	useEffect(() => {
+		if (page < 0 && _token) setPage(0);
+	}, [_token])
 
 	useEffect(() => {
 		if (page === 1) return;
@@ -42,6 +60,9 @@ export function ContextProvider() {
 	return (
 		<context.Provider
 			value={{
+				canLoad,
+				_token,
+				_setToken,
 				isAddOpen,
 				setAddOpen,
 				setCurrentPlaylist,

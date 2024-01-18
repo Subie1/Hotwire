@@ -8,8 +8,7 @@ import react from "@vitejs/plugin-react";
 enable();
 
 console.log(
-	"1:" +
-		` FRONTEND `.bgCyan.black +
+		" FRONTEND ".bgCyan.black +
 		" Frontend hosted on 0.0.0.0:5173 [http://127.0.0.1:5173]"
 );
 

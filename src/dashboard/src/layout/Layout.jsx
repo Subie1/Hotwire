@@ -21,17 +21,17 @@ const CurrentPage = () => {
 };
 
 export default function Layout() {
-	const { isDownloadOpen, isPlaylistsOpen, isAddOpen } = useContext(context);
+	const { isDownloadOpen, isPlaylistsOpen, isAddOpen, canLoad } = useContext(context);
 
 	return (
 		<main className="dark w-full overflow-hidden flex h-full bg-background text-text">
 			{isDownloadOpen ? <AddModel /> : ""}
 			{isPlaylistsOpen ? <PlaylistModel /> : ""}
 			{isAddOpen ? <AddToPlaylistModel /> : ""}
-			<Sidebar />
+			{canLoad ? <Sidebar /> : ""}
 			<div className="flex w-full h-full flex-col items-start justify-between">
 				<CurrentPage />
-				<MusicPlayer />
+				{canLoad ? <MusicPlayer /> : ""}
 			</div>
 		</main>
 	);

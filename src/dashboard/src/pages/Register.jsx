@@ -3,7 +3,7 @@ import { useContext, useEffect, useState } from "react";
 import { context } from "../lib/Context";
 
 export default function Register() {
-	const { host, setPage } = useContext(context);
+	const { host, setPage, _setToken } = useContext(context);
 	const [error, setError] = useState("");
 
 	async function Registering(event) {
@@ -16,8 +16,8 @@ export default function Register() {
 		}
 
 		try {
-			await axios.post(`${host}/api/auth/register`, data);
-			setPage(0);
+			const { data: user } = await axios.post(`${host}/api/auth/register`, data);
+			_setToken(user.token);
 		} catch (err) {
 			setError(err.response.data);
 		}
@@ -33,7 +33,7 @@ export default function Register() {
 	return (
 		<form
 			onSubmit={Registering}
-			className="w-full h-full flex flex-col gap-4 items-center justify-between"
+			className="w-full h-full flex flex-col gap-4 items-center justify-between p-6"
 		>
 			<div></div>
 			<div className="w-full h-full flex flex-col gap-4 items-center justify-center">
