@@ -17,7 +17,7 @@ export function ContextProvider() {
 	const [canLoad, setCanLoad] = useState(false);
 	const [_token, _setToken] = useLocalStorage("_token", false);
 	const [playlists, setPlaylists] = useLocalStorage("playlists", []);
-	const [theme, setTheme] = useLocalStorage("themes", "dark");
+	const [theme, setTheme] = useLocalStorage("theme", { name: "Dark", value: "dark" });
 	const [isDownloadOpen, setDownloadOpened] = useState(false);
 	const [isPlaylistsOpen, setPlaylistsOpen] = useState(false);
 	const [isAddOpen, setAddOpen] = useState(false);

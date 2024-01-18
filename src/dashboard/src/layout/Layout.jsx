@@ -48,7 +48,7 @@ export default function Layout() {
 	return (
 		<main
 			onContextMenu={(event) => HandleContextMenu(event)}
-			className={`${theme} w-full overflow-hidden flex h-full bg-background text-text`}
+			className={`${theme.value} w-full overflow-hidden flex h-full bg-background text-text`}
 		>
 			{isContext ? (
 				<ContextMenu

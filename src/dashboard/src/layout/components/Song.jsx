@@ -72,9 +72,9 @@ export default function Song({ name, artist, url, thumbnail, file }) {
 					  ])
 					: ""
 			}
-			className="rounded-lg z-10 m-1 left bg-secondary shadow-lg shadow-black w-fit h-fit p-4 gap-2 inline-block"
+			className="rounded-lg z-10 m-1 left bg-secondary w-fit h-fit p-4 gap-2 inline-block"
 		>
-			<div className="w-full md:w-32 md:h-32 rounded-lg shadow-lg shadow-black flex items-center justify-center bg-background overflow-hidden">
+			<div className="w-full md:w-32 md:h-32 rounded-lg flex items-center justify-center bg-background overflow-hidden">
 				{thumbnail ? (
 					<img
 						src={thumbnail}

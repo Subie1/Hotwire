@@ -6,11 +6,11 @@
 
 @layer base {
 	:root {
-		--text: #0d171c;
-		--background: #fbfdfe;
-		--primary: #4198c3;
-		--secondary: #9acde4;
-		--accent: #5bb1dc;
+		--text: #0f0f0f;
+		--background: #ffffff;
+		--primary: #cd797d;
+		--secondary: #e6e6e6;
+		--accent: #66b1cd;
 	}
 
 	.dark {
@@ -21,33 +21,44 @@
 		--accent: #04bbfc;
 	}
 
-	.fruit-light {
-		--text: #1b0317;
-		--background: #fdf2fc;
-		--primary: #2fd5e5;
-		--secondary: #f18ca5;
-		--accent: #e9564f;
+	.cotton-candy {
+		--text: #0f0f0f;
+		--background: #fff7f7;
+		--primary: #fc9399;
+		--secondary: #eed9d9;
+		--accent: #03bafc;
 	}
-	.fruit-dark {
-		--text: #fce3f8;
-		--background: #0d020c;
-		--primary: #1ac2d1;
-		--secondary: #710e27;
-		--accent: #b11e16;
+
+	.mustard {
+		--text: #ffffff;
+		--background: #0a0000;
+		--primary: #cb4444;
+		--secondary: #eebf24;
+		--accent: #e94200;
 	}
-	.neon-light {
-		--text: #080408;
-		--background: #fcf9fc;
-		--primary: #b055b6;
-		--secondary: #d59fd9;
-		--accent: #c471ca;
+
+	.grass {
+		--text: #edf2e4;
+		--background: #070803;
+		--primary: #c2d990;
+		--secondary: #6a8a26;
+		--accent: #aeda52;
 	}
-	.neon-dark {
-		--text: #fcf8fc;
-		--background: #070307;
-		--primary: #a549ab;
-		--secondary: #5b265f;
-		--accent: #88348d;
+
+	.ash {
+		--text: #ede5e6;
+		--background: #110c0d;
+		--primary: #c4abae;
+		--secondary: #476653;
+		--accent: #7894a0;
+	}
+
+	.warm {
+		--text: #cbbe98;
+		--background: #292828;
+		--primary: #de6962;
+		--secondary: #61a782;
+		--accent: #e78a4e;
 	}
 }
 
