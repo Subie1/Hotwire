@@ -44,7 +44,7 @@ router.post("/login", (req, res) => {
 router.post("/register", (req, res) => {
 	if (!canAuthenticate(req, res, true)) return;
 
-	const members = Array.from(users.values());
+	const members = Array.from(users.values()).filter((member) => member.name);
 
 	for (const member of members)
 		if (member.name === req.body.name)
