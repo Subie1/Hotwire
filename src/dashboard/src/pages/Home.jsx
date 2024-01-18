@@ -11,7 +11,7 @@ export default function HomePage() {
 		if (currentPlaylist) {
 			setSongs([]);
 			axios
-				.get(`${host}/api/playlist/${currentPlaylist}`)
+				.get(`${host}/api/playlists/${currentPlaylist}`)
 				.then(({ data, status }) => {
 					if (status !== 200) return setSongs([]);
 					if (!data) return setSongs([]);
@@ -57,17 +57,19 @@ export default function HomePage() {
 	}, [currentPlaylist]);
 
 	return (
-		<main className="w-full h-full m-1 p-3 overflow-y-auto relative">
+		<main className="w-full z-10 h-full m-1 p-3 overflow-y-auto relative">
 			{songs.map((song) => {
 				if (!song.file) return "";
-				return <Song
-					key={song.file}
-					artist={song.artist ?? "Anonymous"}
-					name={song.name ?? "No Name"}
-					file={song.file}
-					url={`${host}/api/songs/${song.file}`}
-					thumbnail={song.thumbnail ? song.thumbnail.url : false}
-				/>;
+				return (
+					<Song
+						key={song.file}
+						artist={song.artist ?? "Anonymous"}
+						name={song.name ?? "No Name"}
+						file={song.file}
+						url={`${host}/api/songs/${song.file}`}
+						thumbnail={song.thumbnail ? song.thumbnail.url : false}
+					/>
+				);
 			})}
 			{currentPlaylist ? <AddToPlaylist /> : ""}
 		</main>

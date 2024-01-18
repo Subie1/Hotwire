@@ -12,7 +12,8 @@ function truncate(input, length) {
 }
 
 export default function Song({ name, artist, url, thumbnail, file }) {
-	const { song, setSong, currentPlaylist, host, songs, setSongs } = useContext(context);
+	const { song, setSong, currentPlaylist, host, setSongs } =
+		useContext(context);
 	const isPlaying = useIsPlaying();
 
 	function ToggleSong() {
@@ -22,10 +23,12 @@ export default function Song({ name, artist, url, thumbnail, file }) {
 	}
 
 	async function RemoveSong() {
-		await axios.get(`${host}/api/playlist/${currentPlaylist}/remove/${file}`);
-		
+		await axios.delete(
+			`${host}/api/playlists/${currentPlaylist}/delete/${file}`
+		);
+
 		axios
-			.get(`${host}/api/playlist/${currentPlaylist}`)
+			.get(`${host}/api/playlists/${currentPlaylist}`)
 			.then(({ data, status }) => {
 				if (status !== 200) return setSongs([]);
 				if (!data) return setSongs([]);
@@ -52,7 +55,7 @@ export default function Song({ name, artist, url, thumbnail, file }) {
 	}
 
 	return (
-		<div className="rounded-lg m-1 left bg-secondary shadow-lg shadow-black w-fit h-fit p-4 gap-2 inline-block">
+		<div className="rounded-lg z-10 m-1 left bg-secondary shadow-lg shadow-black w-fit h-fit p-4 gap-2 inline-block">
 			<div className="w-full md:w-32 md:h-32 rounded-lg shadow-lg shadow-black flex items-center justify-center bg-background overflow-hidden">
 				{thumbnail ? (
 					<img
@@ -71,7 +74,10 @@ export default function Song({ name, artist, url, thumbnail, file }) {
 					<h1 className="text-white">{truncate(name, 8)}</h1>
 					<span className="text-xs text-gray-500">{truncate(artist, 12)}</span>
 					{currentPlaylist ? (
-						<a onClick={() => RemoveSong()} className="w-fit h-fit p-2 bg-background opacity-40 rounded-lg cursor-pointer text-xs">
+						<a
+							onClick={() => RemoveSong()}
+							className="w-fit h-fit p-2 bg-background opacity-40 rounded-lg cursor-pointer text-xs"
+						>
 							<Icon name="TbTrash" />
 						</a>
 					) : (

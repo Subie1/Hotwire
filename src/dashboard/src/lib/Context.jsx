@@ -1,9 +1,13 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import useLocalStorage from "../hooks/useLocalStorage";
 
+import Layout from "../layout/Layout";
+import axios from "axios";
 export const context = createContext();
 
-export function ContextProvider({ children }) {
+axios.defaults.withCredentials = true;
+
+export function ContextProvider() {
 	const [songs, setSongs] = useState([]);
 	const [host, setHost] = useLocalStorage(
 		"host",
@@ -21,6 +25,19 @@ export function ContextProvider({ children }) {
 		thumbnail: "",
 	});
 	const [page, setPage] = useState(0);
+
+	useEffect(() => {
+		if (page === 1) return;
+		if (page < 0) return;
+
+		axios
+			.get(`${host}/api/auth/ping`)
+			.then(({ status }) => {
+				if (status === 200) return;
+				return setPage(-1);
+			})
+			.catch(() => setPage(-1));
+	}, [page]);
 
 	return (
 		<context.Provider
@@ -45,7 +62,7 @@ export function ContextProvider({ children }) {
 				setPlaylists,
 			}}
 		>
-			{children}
+			<Layout />
 		</context.Provider>
 	);
 }

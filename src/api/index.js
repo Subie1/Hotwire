@@ -1,173 +1,38 @@
 const express = require("express");
-const yt = require("ytdl-core");
+const cookieParser = require("cookie-parser");
 const cors = require("cors");
-const crypto = require("crypto");
-const yargs = require("yargs");
-const Salvis = require("salvis");
-const { hideBin } = require("yargs/helpers");
-const { join } = require("path");
-const {
-	createWriteStream,
-	readdirSync,
-	readFileSync,
-	writeFileSync,
-	existsSync,
-	mkdirSync,
-} = require("fs");
+const { readFileSync } = require("fs");
 
-const args = yargs(hideBin(process.argv)).argv;
+require("colors").enable();
+require("./src/lib/loadArgv");
+require("./src/lib/loadDirectories");
 
-const outputFolder = args.songs || "./songs";
-const port = process.env.VITE_BACKEND_PORT || args.port || 3000;
-const dataPath = args.data || "./data";
-
-if (!existsSync(outputFolder)) mkdirSync(outputFolder, { recursive: true });
-if (!existsSync(dataPath)) mkdirSync(dataPath, { recursive: true });
-
-const MainStorage = new Salvis("main_storage", { path: dataPath });
-const playlists = MainStorage.box("playlists");
+const configPath = process.argv.config || "./config.json";
+const config = JSON.parse(readFileSync(configPath, "utf-8"));
 
 const app = express();
+app.use(
+	cors({
+		origin: function (_, callback) {
+			return callback(null, true);
+		},
+		optionsSuccessStatus: 200,
+		credentials: true,
+	})
+);
 app.use(express.json());
-app.use(cors());
+app.use(cookieParser(config.PRIVATE_KEY));
 app.use(express.urlencoded({ extended: true }));
 app.set("trust proxy", true);
 
-app.get("/api/songs/:songId", (req, res) => {
-	const files = readdirSync("./songs", { withFileTypes: true })
-		.filter((file) => file.isFile())
-		.filter((file) => !file.name.endsWith(".json"));
+app.use("/api/playlists", require("./src/routes/Playlists"));
+app.use("/api/songs", require("./src/routes/Songs"));
+app.use("/api/upload", require("./src/routes/Upload"));
+app.use("/api/auth", require("./src/routes/Authentication"));
 
-	for (const file of files) {
-		if (file.name !== req.params.songId) continue;
-		return res.status(200).sendFile(join(process.cwd(), "songs", file.name));
-	}
-
-	return res.status(404).end();
-});
-
-app.get("/api/playlist/:id/remove/:songId", (req, res) => {
-	if (!playlists.has(req.params.id)) return res.status(404).end();
-	const playlist = playlists.get(req.params.id);
-
-	const files = readdirSync(outputFolder, { withFileTypes: true })
-		.filter((file) => file.isFile())
-		.filter((file) => !file.name.endsWith(".json"));
-
-	for (const file of files) {
-		if (file.name !== req.params.songId) continue;
-
-		const songs = playlist.songs.filter(s => s !== file.name);
-		delete playlist.songs;
-
-		playlists.set(playlist.id, { ...playlist, songs });
-
-		return res.status(200).json(playlist);
-	}
-
-	return res.status(404).end();
-});
-
-app.post("/api/playlist/:id/add", (req, res) => {
-	if (!playlists.has(req.params.id)) return res.status(404).end();
-	if (!req.body.songId) return res.status(400).end();
-
-	const playlist = playlists.get(req.params.id);
-
-	const files = readdirSync(outputFolder, { withFileTypes: true })
-		.filter((file) => file.isFile())
-		.filter((file) => !file.name.endsWith(".json"));
-
-	for (const file of files) {
-		if (file.name !== req.body.songId) continue;
-
-		const songs = [...playlist.songs];
-		delete playlist.songs;
-
-		songs.push(file.name);
-		playlists.set(playlist.id, { ...playlist, songs });
-
-		return res.status(200).json(playlist);
-	}
-
-	return res.status(404).end();
-});
-
-app.post("/api/playlist/create", (req, res) => {
-	if (!req.body.name) return res.status(400).end();
-
-	const id = crypto.randomBytes(5).toString("hex");
-	const data = {
-		name: req.body.name,
-		songs: [],
-		id,
-	};
-
-	playlists.set(id, data);
-	return res.status(200).json(data);
-});
-
-app.get("/api/playlist/:id", (req, res) => {
-	if (!playlists.has(req.params.id)) return res.status(404).end();
-	const playlist = playlists.get(req.params.id);
-	return res.status(200).json(playlist);
-});
-
-app.get("/api/songs", (_, res) => {
-	const files = readdirSync(outputFolder, { withFileTypes: true })
-		.filter((file) => file.isFile())
-		.filter((file) => file.name.endsWith(".json"))
-		.map((file) =>
-			JSON.parse(readFileSync(join(outputFolder, file.name), "utf-8"))
-		);
-	return res.status(200).json(files);
-});
-
-app.post("/api/download/youtube", async (req, res) => {
-	if (!req.body.video) return res.status(400).end();
-	if (!yt.validateURL(req.body.video)) return res.status(400).end();
-
-	try {
-		const video = await yt.getInfo(req.body.video);
-		const format = yt.chooseFormat(video.formats, { quality: "lowest" });
-
-		if (!existsSync(outputFolder))
-			await mkdirSync(outputFolder, { recursive: true });
-
-		const stream = createWriteStream(
-			join(outputFolder, `${video.videoDetails.videoId}.${format.container}`)
-		);
-
-		writeFileSync(
-			join(outputFolder, `${video.videoDetails.videoId}-config.json`),
-			JSON.stringify({
-				name: video.videoDetails.title,
-				artist: video.videoDetails.author.name,
-				file: `${video.videoDetails.videoId}.${format.container}`,
-				thumbnail: video.videoDetails.thumbnails[0],
-			})
-		);
-
-		const download = yt.downloadFromInfo(video, { format });
-		const info = download.pipe(stream);
-
-		info.on("finish", () => {
-			const files = readdirSync("./songs", { withFileTypes: true })
-				.filter((file) => file.isFile())
-				.filter((file) => file.name.endsWith(".json"))
-				.map((file) =>
-					JSON.parse(readFileSync(join(outputFolder, file.name), "utf-8"))
-				);
-
-			res.status(200).json(files);
-		});
-	} catch {
-		res
-			.status(500)
-			.end(
-				JSON.stringify({ status: "error", description: "Failed to save video" })
-			);
-	}
-});
-
-app.listen(port, () => console.log("[BACKEND]: Ready on port " + port));
+const port = process.env.VITE_BACKEND_PORT || (process.argv.port ?? 3000);
+app.listen(port, () =>
+	console.log(
+		"1:" + " BACKEND ".bgWhite.black + " Ready on port " + `${port}`.yellow
+	)
+);

@@ -5,20 +5,19 @@ import Icon from "./Icon";
 
 export default function PlaylistModel() {
 	const input = useRef(null);
-	const { setPlaylistsOpen, host, setPlaylists } = useContext(context);
+	const { setPlaylistsOpen, host, setPlaylists, playlists } =
+		useContext(context);
 
 	function AddPlaylist() {
 		setPlaylistsOpen(false);
 		if (!input.current.value.trim().length) return;
 		axios
-			.post(`${host}/api/playlist/create`, {
+			.post(`${host}/api/playlists/create`, {
 				name: input.current.value.trim(),
 			})
 			.then(({ data }) => {
-				setPlaylists((previous) => {
-					previous.push(data.id);
-					return previous;
-				});
+				const previous = [...playlists, data.id];
+				setPlaylists(previous);
 			});
 		input.current.value = "";
 	}

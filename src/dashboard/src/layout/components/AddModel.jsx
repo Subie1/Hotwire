@@ -11,7 +11,7 @@ export default function AddModel() {
 		setDownloadOpened(false);
 		if (!input.current.value.trim().length) return;
 		axios
-			.post(`${host}/api/download/youtube`, {
+			.post(`${host}/api/upload/youtube`, {
 				video: input.current.value.trim(),
 			})
 			.then(() => {

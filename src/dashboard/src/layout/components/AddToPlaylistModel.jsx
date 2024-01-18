@@ -5,14 +5,8 @@ import Icon from "./Icon";
 
 export default function AddToPlaylistModel() {
 	const [queries, setQueries] = useState([]);
-	const {
-		setAddOpen,
-		host,
-		isAddOpen,
-		currentPlaylist,
-		songs,
-		setSongs,
-	} = useContext(context);
+	const { setAddOpen, host, isAddOpen, currentPlaylist, songs, setSongs } =
+		useContext(context);
 
 	useEffect(() => {
 		try {
@@ -41,12 +35,12 @@ export default function AddToPlaylistModel() {
 
 	function AddSong(song) {
 		axios
-			.post(`${host}/api/playlist/${currentPlaylist}/add`, {
+			.put(`${host}/api/playlists/${currentPlaylist}/add`, {
 				songId: song.file,
 			})
 			.then(() => {
 				axios
-					.get(`${host}/api/playlist/${currentPlaylist}`)
+					.get(`${host}/api/playlists/${currentPlaylist}`)
 					.then(({ data, status }) => {
 						if (status !== 200) return setSongs([]);
 						if (!data) return setSongs([]);
@@ -64,7 +58,9 @@ export default function AddToPlaylistModel() {
 								for (const song of d) {
 									if (!data.songs.includes(song.file)) continue;
 									res.push(song);
-									setQueries(queries => queries.filter(query => query.file !== song.file));
+									setQueries((queries) =>
+										queries.filter((query) => query.file !== song.file)
+									);
 								}
 
 								setSongs(res);
