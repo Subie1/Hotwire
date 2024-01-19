@@ -11,6 +11,7 @@ router.use(require("../middleware/Authentication"));
 
 router.delete("/:id/delete", (req, res) => {
 	if (!playlists.has(req.params.id)) return res.status(404).end("No playlist was found with that id");
+	const playlist = playlists.get(req.params.id);
 	const user = User(req.headers.authorization);
 	if (playlist.id !== user.id)
 		return res.status(401).end("You don't have access to modify this playlist");
@@ -23,10 +24,9 @@ router.delete("/:id/delete/:songId", (req, res) => {
 	if (!playlists.has(req.params.id)) return res.status(404).end("No playlist was found with that id");
 
 	const user = User(req.headers.authorization);
+	const playlist = playlists.get(req.params.id);
 	if (playlist.id !== user.id)
 		return res.status(401).end("You don't have access to modify this playlist");
-
-	const playlist = playlists.get(req.params.id);
 
 	const files = readdirSync(outputFolder, { withFileTypes: true })
 		.filter((file) => file.isFile())
@@ -50,11 +50,11 @@ router.put("/:id/add", (req, res) => {
 	if (!playlists.has(req.params.id)) return res.status(404).end("No playlist was found with that id");
 	if (!req.body.songId) return res.status(400).end("No song id was provided");
 
+	const playlist = playlists.get(req.params.id);
+
 	const user = User(req.headers.authorization);
 	if (playlist.id !== user.id)
 		return res.status(401).end("You don't have access to modify this playlist");
-
-	const playlist = playlists.get(req.params.id);
 
 	const files = readdirSync(outputFolder, { withFileTypes: true })
 		.filter((file) => file.isFile())
