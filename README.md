@@ -7,10 +7,10 @@
 </p>
 
 <p float="center">
-  <img src="https://github.com/Subie1/Hotwire/assets/133152722/bd5b39f3-1a86-414b-aee5-90fc53cf2208" width="45%" />
-  <img src="https://github.com/Subie1/Hotwire/assets/133152722/fded0b31-95d9-4b47-b3a0-3d31fd565c16" width="45%" />
-  <img src="https://github.com/Subie1/Hotwire/assets/133152722/094b2003-0308-4568-a7ac-9bc0ecf4cf3d" width="45%" />
-  <img src="https://github.com/Subie1/Hotwire/assets/133152722/8c8bbe51-8ae1-4424-aee8-6aece7b383bc" width="45%" />
+  <img src="https://github.com/Subie1/Hotwire/assets/133152722/60f9befe-763b-4095-bfc5-d15f4afc617f" width="45%" />
+  <img src="https://github.com/Subie1/Hotwire/assets/133152722/4099bda9-447d-4bd4-937a-7b7d7924a2df" width="45%" />
+  <img src="https://github.com/Subie1/Hotwire/assets/133152722/dfb0ea2f-531c-4cf8-ad64-ad832bde6c5d" width="45%" />
+  <img src="https://github.com/Subie1/Hotwire/assets/133152722/07f86eda-b831-4783-90aa-3d9e9c040205" width="45%" />
 </p>
 
 # > Download
