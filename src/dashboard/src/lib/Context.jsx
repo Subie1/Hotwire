@@ -18,6 +18,9 @@ export function ContextProvider() {
 	const [_token, _setToken] = useLocalStorage("_token", false);
 	const [playlists, setPlaylists] = useLocalStorage("playlists", []);
 	const [theme, setTheme] = useLocalStorage("theme", { name: "Dark", value: "dark" });
+	const [volume, setVolume] = useLocalStorage("volume", 50);
+	const [muted, setMuted] = useLocalStorage("muted", true);
+	const [icon, setIcon] = useLocalStorage("icon", "TbVolume2");
 	const [isDownloadOpen, setDownloadOpened] = useState(false);
 	const [isPlaylistsOpen, setPlaylistsOpen] = useState(false);
 	const [isAddOpen, setAddOpen] = useState(false);
@@ -86,6 +89,12 @@ export function ContextProvider() {
 				setPlaylists,
 				theme,
 				setTheme,
+				volume,
+				setVolume,
+				muted,
+				setMuted,
+				icon,
+				setIcon,
 			}}
 		>
 			<Layout />

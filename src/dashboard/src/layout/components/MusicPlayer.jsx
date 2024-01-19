@@ -5,9 +5,12 @@ import { MdLoop } from "react-icons/md";
 import useIsPlaying from "../../hooks/useIsPlaying";
 import AddSong from "./AddSong";
 import PeekBar from "./PeekBar";
+import Volume from "./Volume";
 
 export default function MusicPlayer() {
 	const { song } = useContext(context);
+	const { volume } = useContext(context);
+	const { muted } = useContext(context);
 	const isPlaying = useIsPlaying();
 	const player = useRef(null);
 	const [loop, setLoop] = useState(false);
@@ -42,6 +45,7 @@ export default function MusicPlayer() {
 				src={song.url}
 				title={song.name ?? "Nothing playing"}
 				loop={loop}
+				volume={muted ? 0 : volume / 100}
 			></video>
 			<div className="w-full flex items-center justify-between">
 				<div className="flex gap-1 items-center justify-center">
@@ -82,6 +86,7 @@ export default function MusicPlayer() {
 				<div className="w-full h-fit rounded-xl bg-secondary p-2 flex flex-col items-center justify-center">
 					<PeekBar videoId="music_player" />
 				</div>
+				<Volume player={document.getElementById("music_player")} />
 				<AddSong />
 			</div>
 		</div>
