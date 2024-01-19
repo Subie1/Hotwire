@@ -95,13 +95,7 @@ export function ContextProvider() {
 				playlists,
 				setPlaylists,
 				theme,
-				setTheme,
-				volume,
-				setVolume,
-				muted,
-				setMuted,
-				icon,
-				setIcon,
+				setTheme
 			}}
 		>
 			<video

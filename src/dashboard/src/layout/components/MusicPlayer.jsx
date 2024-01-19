@@ -1,28 +1,43 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import Icon from "./Icon";
 import { context } from "../../lib/Context";
 import { MdLoop } from "react-icons/md";
 import useIsPlaying from "../../hooks/useIsPlaying";
 import AddSong from "./AddSong";
-import PeekBar from "./PeekBar";
-import Volume from "./Volume";
+import Volume from "./VolumeControl";
+import Slider from "./Slider";
 
 export default function MusicPlayer() {
-const {
-		song,
-		player,
-	} = useContext(context);
+	const [currentTime, setCurrentTime] = useState(0);
+	const [duration, setDuration] = useState(0);
+	const { song, player } = useContext(context);
 	const isPlaying = useIsPlaying();
 
 	function ToggleSong() {
-		if (!player) return;
 		if (isPlaying) return player.pause();
 		player.play();
 	}
 
 	useEffect(() => {
 		if (!player) return;
-		
+		player.addEventListener("timeupdate", handleTimeUpdate);
+		player.addEventListener("durationchange", handleDurationChange);
+
+		return () => {
+			player.removeEventListener("timeupdate", handleTimeUpdate);
+			player.removeEventListener("durationchange", handleDurationChange);
+		}
+	}, [player])
+
+	const handleTimeUpdate = () => {
+		setCurrentTime(player.currentTime);
+	};
+
+	const handleDurationChange = () => {
+		setDuration(player.duration);
+	};
+
+	useEffect(() => {
 		player.pause();
 		player.load();
 		player.play();
@@ -76,12 +91,32 @@ const {
 				</div>
 			</div>
 			<div className="flex w-full items-center justify-center gap-2">
-				<div className="w-full h-fit rounded-xl bg-secondary p-2 flex flex-col items-center justify-center">
-					<PeekBar videoId="music_player" />
+				<div className="w-full h-fit rounded-xl bg-secondary p-2 gap-2 flex items-center justify-center">
+					<span className="text-xs opacity-40">
+						{formatTime(player.currentTime)}
+					</span>
+					<Slider
+						className="w-full"
+						value={currentTime}
+						minimum={0}
+						maximum={duration}
+						onRelease={(query) => (player.currentTime = query)}
+					/>
+					<span className="text-xs opacity-40">
+						{formatTime(player.duration || 0)}
+					</span>
 				</div>
-				<Volume player={document.getElementById("music_player")} />
+				<Volume />
 				<AddSong />
 			</div>
 		</div>
 	);
+}
+
+function formatTime(time) {
+	const minutes = Math.floor(time / 60);
+	const seconds = Math.floor(time % 60);
+	return `${minutes.toString().padStart(2, "0")}:${seconds
+		.toString()
+		.padStart(2, "0")}`;
 }
