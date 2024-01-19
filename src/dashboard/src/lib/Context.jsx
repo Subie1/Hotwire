@@ -100,6 +100,7 @@ export function ContextProvider() {
 			}}
 		>
 			<video
+				ref={player}
 				id="music_player"
 				className="hidden"
 				src={song.url}

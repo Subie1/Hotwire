@@ -1,32 +1,30 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { context } from "../lib/Context";
 
 function useIsPlaying() {
+	const { player } = useContext(context);
 	const [isPlaying, setIsPlaying] = useState(false);
 
 	useEffect(() => {
-		const videoElement = document.getElementById("music_player");
+		if (!player) return;
+		const handlePlaying = () => {
+			setIsPlaying(true);
+		};
 
-		if (videoElement) {
-			const handlePlaying = () => {
-				setIsPlaying(true);
-			};
+		const handlePaused = () => {
+			setIsPlaying(false);
+		};
 
-			const handlePaused = () => {
-				setIsPlaying(false);
-			};
+		player.addEventListener("playing", handlePlaying);
+		player.addEventListener("pause", handlePaused);
+		player.addEventListener("ended", handlePaused);
 
-			videoElement.addEventListener("playing", handlePlaying);
-			videoElement.addEventListener("pause", handlePaused);
-			videoElement.addEventListener("ended", handlePaused);
-
-			// Cleanup function to remove event listeners
-			return () => {
-				videoElement.removeEventListener("playing", handlePlaying);
-				videoElement.removeEventListener("pause", handlePaused);
-				videoElement.removeEventListener("ended", handlePaused);
-			};
-		}
-	}, []); // Empty dependency array to run the effect only once
+		return () => {
+			player.removeEventListener("playing", handlePlaying);
+			player.removeEventListener("pause", handlePaused);
+			player.removeEventListener("ended", handlePaused);
+		};
+	}, []);
 
 	return isPlaying;
 }
