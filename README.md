@@ -23,6 +23,12 @@ npm run install-all
 
 # > Building
 
+## Automated building
+```
+npm run package
+```
+
+## Manual building
 #### Building the **client**
 
 ```
