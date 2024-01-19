@@ -5,33 +5,60 @@ export default function PeekBar({ videoId }) {
 	const [currentTime, setCurrentTime] = useState(0);
 	const [isDragging, setIsDragging] = useState(false);
 
+	const handleSeek = (event) => {
+		if (!videoRef.current || !videoRef.current.duration) return;
+
+		const seekBarRect = seekBarRef.current.getBoundingClientRect();
+		let seekPosition = (event.clientX - seekBarRect.left) / seekBarRect.width;
+
+		// Ensure seekPosition is within the valid range
+		seekPosition = Math.max(0, Math.min(1, seekPosition));
+
+		const newTime = videoRef.current.duration * seekPosition;
+		setCurrentTime(newTime);
+	};
+
+	const isWithinSeekBar = (event) => {
+		const seekBarRect = seekBarRef.current.getBoundingClientRect();
+		return (
+			event.clientX >= seekBarRect.left &&
+			event.clientX <= seekBarRect.right &&
+			event.clientY >= seekBarRect.top &&
+			event.clientY <= seekBarRect.bottom
+		);
+	};
+
+	const handleTimeUpdate = () => {
+		if (!isDragging) {
+			setCurrentTime(videoRef.current.currentTime);
+		}
+	};
+
+	const handleMouseDown = (event) => {
+		// Check if the click is within the seek bar
+		if (isWithinSeekBar(event)) {
+			setIsDragging(true);
+			handleSeek(event);
+		}
+	};
+
+	const handleMouseUp = () => {
+		if (isDragging) {
+			videoRef.current.currentTime = currentTime;
+			setIsDragging(false);
+		}
+	};
+
+	const handleMouseMove = (event) => {
+		if (isDragging) {
+			handleSeek(event);
+		}
+	};
+
 	useEffect(() => {
 		if (!videoRef.current) videoRef.current = document.getElementById(videoId);
 
 		const video = videoRef.current;
-
-		const handleTimeUpdate = () => {
-			if (!isDragging) {
-				setCurrentTime(video.currentTime);
-			}
-		};
-
-		const handleMouseDown = () => {
-			setIsDragging(true);
-		};
-
-		const handleMouseUp = () => {
-			if (isDragging) {
-				video.currentTime = currentTime;
-				setIsDragging(false);
-			}
-		};
-
-		const handleMouseMove = (event) => {
-			if (isDragging) {
-				handleSeek(event);
-			}
-		};
 
 		video.addEventListener("timeupdate", handleTimeUpdate);
 		document.addEventListener("mousedown", handleMouseDown);
@@ -46,19 +73,6 @@ export default function PeekBar({ videoId }) {
 		};
 	}, [videoRef, currentTime, isDragging, videoId]);
 
-	const handleSeek = (event) => {
-		if (!videoRef.current || !videoRef.current.duration) return;
-
-		const seekBarRect = seekBarRef.current.getBoundingClientRect();
-		let seekPosition = (event.clientX - seekBarRect.left) / seekBarRect.width;
-
-		// Ensure seekPosition is within the valid range
-		seekPosition = Math.max(0, Math.min(1, seekPosition));
-
-		const newTime = videoRef.current.duration * seekPosition;
-		setCurrentTime(newTime);
-	};
-
 	const seekBarRef = useRef(null);
 
 	return (
@@ -67,7 +81,7 @@ export default function PeekBar({ videoId }) {
 			<div
 				ref={seekBarRef}
 				className="w-full h-1 flex items-center bg-background rounded-full relative cursor-pointer"
-				onMouseDown={handleSeek}
+				onMouseDown={handleMouseDown}
 			>
 				<div
 					style={{
