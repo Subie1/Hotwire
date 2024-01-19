@@ -1,4 +1,4 @@
-<h1 align="center">[Hotwire](https://github.com/users/Subie1/projects/1)</h1>
+<h1 align="center">Hotwire</h1>
 <p align="center">Easily organise and download your songs for offline use!</p>
 
 <p align="center">
