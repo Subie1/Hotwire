@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useEffect, useRef, useState } from "react";
 import { useLocalStorage } from "@uidotdev/usehooks";
 
 import Layout from "../layout/Layout";
@@ -9,27 +9,37 @@ const source = axios.CancelToken.source();
 axios.defaults.cancelToken = source.token;
 
 export function ContextProvider() {
+	const player = useRef(null);
 	const [songs, setSongs] = useState([]);
-	const [host, setHost] = useLocalStorage(
-		"host",
-		`http://localhost:${import.meta.env.VITE_BACKEND_PORT ?? 3000}`
-	);
-	const [canLoad, setCanLoad] = useState(false);
-	const [_token, _setToken] = useLocalStorage("_token", false);
 	const [playlists, setPlaylists] = useLocalStorage("playlists", []);
-	const [theme, setTheme] = useLocalStorage("theme", { name: "Dark", value: "dark" });
-	const [isDownloadOpen, setDownloadOpened] = useState(false);
-	const [isPlaylistsOpen, setPlaylistsOpen] = useState(false);
-	const [isAddOpen, setAddOpen] = useState(false);
-	const [currentPlaylist, setCurrentPlaylist] = useState(false);
-	const [contextElements, setContextElements] = useState([]);
 	const [song, setSong] = useState({
 		url: "",
 		artist: "",
 		name: "",
 		thumbnail: "",
 	});
+
+	const [theme, setTheme] = useLocalStorage("theme", {
+		name: "Dark",
+		value: "dark",
+	});
+	const [host, setHost] = useLocalStorage(
+		"host",
+		`http://localhost:${import.meta.env.VITE_BACKEND_PORT ?? 3000}`
+	);
+
+	const [canLoad, setCanLoad] = useState(false);
+	const [_token, _setToken] = useLocalStorage("_token", false);
+	
+	const [isDownloadOpen, setDownloadOpened] = useState(false);
+	const [isPlaylistsOpen, setPlaylistsOpen] = useState(false);
+	const [isAddOpen, setAddOpen] = useState(false);
+	
+	const [contextElements, setContextElements] = useState([]);
+
 	const [page, setPage] = useState(-1);
+	const [currentPlaylist, setCurrentPlaylist] = useState(false);
+	
 	useEffect(() => {
 		if (!_token) return;
 
@@ -61,6 +71,7 @@ export function ContextProvider() {
 	return (
 		<context.Provider
 			value={{
+				player: player.current,
 				contextElements,
 				setContextElements,
 				canLoad,
@@ -88,6 +99,12 @@ export function ContextProvider() {
 				setTheme,
 			}}
 		>
+			<video
+				id="music_player"
+				className="hidden"
+				src={song.url}
+				title={song.name ?? "Nothing playing"}
+			></video>
 			<Layout />
 		</context.Provider>
 	);

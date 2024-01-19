@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect } from "react";
 import Icon from "./Icon";
 import { context } from "../../lib/Context";
 import { MdLoop } from "react-icons/md";
@@ -7,19 +7,21 @@ import AddSong from "./AddSong";
 import PeekBar from "./PeekBar";
 
 export default function MusicPlayer() {
-	const { song } = useContext(context);
+	const {
+		song,
+		player,
+	} = useContext(context);
 	const isPlaying = useIsPlaying();
-	const player = useRef(null);
-	const [loop, setLoop] = useState(false);
 
 	function ToggleSong() {
-		const player = document.getElementById("music_player");
+		if (!player) return;
 		if (isPlaying) return player.pause();
 		player.play();
 	}
 
 	useEffect(() => {
-		const player = document.getElementById("music_player");
+		if (!player) return;
+		
 		player.pause();
 		player.load();
 		player.play();
@@ -35,14 +37,6 @@ export default function MusicPlayer() {
 
 	return (
 		<div className="w-full h-fit flex flex-col items-start justify-center py-2 pe-2">
-			<video
-				ref={player}
-				id="music_player"
-				className="hidden"
-				src={song.url}
-				title={song.name ?? "Nothing playing"}
-				loop={loop}
-			></video>
 			<div className="w-full flex items-center justify-between">
 				<div className="flex gap-1 items-center justify-center">
 					<div className="flex h-fit gap-2 bg-secondary p-2 rounded-xl w-fit">
@@ -67,10 +61,12 @@ export default function MusicPlayer() {
 						/>
 					</div>
 					<div
-						onClick={() => setLoop(!loop)}
+						onClick={() => (player ? player.loop != player.loop : "")}
 						className={`transition-all w-fit h-fit duration-200 group hover:scale-95 flex relative items-center justify-center cursor-pointer rounded-full text-lg ${
-							loop
-								? "bg-gradient-to-br from-primary to-accent text-secondary"
+							player
+								? player.loop != player.loop
+									? "bg-gradient-to-br from-primary to-accent text-secondary"
+									: "bg-secondary text-text"
 								: "bg-secondary text-text"
 						} p-2`}
 					>
