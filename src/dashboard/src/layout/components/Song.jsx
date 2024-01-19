@@ -12,13 +12,12 @@ function truncate(input, length) {
 }
 
 export default function Song({ name, artist, url, thumbnail, file }) {
-	const { song, setSong, currentPlaylist, host, setSongs, setContextElements } =
+	const { song, setSong, currentPlaylist, player, host, setSongs, setContextElements } =
 		useContext(context);
 	const isPlaying = useIsPlaying();
 	const [blob, setBlob] = useState("");
 
 	async function ToggleSong() {
-		const player = document.getElementById("music_player");
 		if (song.url === blob && isPlaying) return player.pause();
 
 		axios.get(url, { responseType: "blob" }).then(({ data }) => {

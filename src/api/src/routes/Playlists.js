@@ -10,13 +10,22 @@ const router = express.Router();
 router.use(require("../middleware/Authentication"));
 
 router.delete("/:id/delete", (req, res) => {
-	if (!playlists.has(req.params.id)) return res.status(404).end();
+	if (!playlists.has(req.params.id)) return res.status(404).end("No playlist was found with that id");
+	const user = User(req.headers.authorization);
+	if (playlist.id !== user.id)
+		return res.status(401).end("You don't have access to modify this playlist");
+	
 	playlists.delete(req.params.id);
-	return res.status(200).end();
+	return res.status(200).end("Deleted playlist successfully");
 });
 
 router.delete("/:id/delete/:songId", (req, res) => {
-	if (!playlists.has(req.params.id)) return res.status(404).end();
+	if (!playlists.has(req.params.id)) return res.status(404).end("No playlist was found with that id");
+
+	const user = User(req.headers.authorization);
+	if (playlist.id !== user.id)
+		return res.status(401).end("You don't have access to modify this playlist");
+
 	const playlist = playlists.get(req.params.id);
 
 	const files = readdirSync(outputFolder, { withFileTypes: true })
@@ -34,12 +43,16 @@ router.delete("/:id/delete/:songId", (req, res) => {
 		return res.status(200).json(playlist);
 	}
 
-	return res.status(404).end();
+	return res.status(404).end("No song was found with that id in the playlist");
 });
 
 router.put("/:id/add", (req, res) => {
-	if (!playlists.has(req.params.id)) return res.status(404).end();
-	if (!req.body.songId) return res.status(400).end();
+	if (!playlists.has(req.params.id)) return res.status(404).end("No playlist was found with that id");
+	if (!req.body.songId) return res.status(400).end("No song id was provided");
+
+	const user = User(req.headers.authorization);
+	if (playlist.id !== user.id)
+		return res.status(401).end("You don't have access to modify this playlist");
 
 	const playlist = playlists.get(req.params.id);
 
@@ -59,11 +72,11 @@ router.put("/:id/add", (req, res) => {
 		return res.status(200).json(playlist);
 	}
 
-	return res.status(404).end();
+	return res.status(404).end("No song found with that id");
 });
 
 router.post("/create", (req, res) => {
-	if (!req.body.name) return res.status(400).end();
+	if (!req.body.name) return res.status(400).end("No playlist was found with that id");
 
 	const user = User(req.headers.authorization);
 
@@ -81,8 +94,11 @@ router.post("/create", (req, res) => {
 });
 
 router.get("/:id", (req, res) => {
-	if (!playlists.has(req.params.id)) return res.status(404).end();
+	if (!playlists.has(req.params.id)) return res.status(404).end("Playlist doesn't exist");
 	const playlist = playlists.get(req.params.id);
+	const user = User(req.headers.authorization);
+
+	if (playlist.id !== user.id && playlist.private) return res.status(401).end("You don't have access to view this playlist");
 	return res.status(200).json(playlist);
 });
 
