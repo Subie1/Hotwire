@@ -31,10 +31,12 @@ async function Main() {
 	);
 
 	console.log("\t PACKAGE ".bgCyan.black + " Building " + "Server".yellow);
-	await execSync(
-		"pkg ./src/api/index.js --target latest --output ./target/server-software.exe",
-		{ cwd: process.cwd() }
-	);
+	try {
+		await execSync(
+			"pkg ./src/api/index.js --target latest --output ./target/server-software.exe",
+			{ cwd: process.cwd() }
+		);
+	} catch {}
 	console.log("\t PACKAGE ".bgCyan.black + " Built Server".green);
 }
 
