@@ -1,10 +1,13 @@
 const { readFileSync } = require("fs");
+const User = require("./User");
 
 const configPath = process.argv.config || "./config.json";
 const config = JSON.parse(readFileSync(configPath, "utf-8"));
 
 module.exports = (req, res, isRegister = false) => {
-	if (req.headers.authorization) {
+	condition: if (req.headers.authorization) {
+		const user = User(req.headers.authorization);
+		if (!user) break condition;
 		res.status(403).end("Already logged in.");
 		return false;
 	}
