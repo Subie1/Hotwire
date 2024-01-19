@@ -26,8 +26,8 @@ export default function MusicPlayer() {
 		return () => {
 			player.removeEventListener("timeupdate", handleTimeUpdate);
 			player.removeEventListener("durationchange", handleDurationChange);
-		}
-	}, [player])
+		};
+	}, [player]);
 
 	const handleTimeUpdate = () => {
 		setCurrentTime(player.currentTime);
@@ -77,12 +77,10 @@ export default function MusicPlayer() {
 						/>
 					</div>
 					<div
-						onClick={() => (player ? player.loop != player.loop : "")}
+						onClick={() => player.loop = !player.loop}
 						className={`transition-all w-fit h-fit duration-200 group hover:scale-95 flex relative items-center justify-center cursor-pointer rounded-full text-lg ${
-							player
-								? player.loop != player.loop
-									? "bg-gradient-to-br from-primary to-accent text-secondary"
-									: "bg-secondary text-text"
+							player.loop == true
+								? "bg-gradient-to-br from-primary to-accent text-secondary"
 								: "bg-secondary text-text"
 						} p-2`}
 					>
