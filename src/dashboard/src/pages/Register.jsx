@@ -1,10 +1,13 @@
 import axios from "axios";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { context } from "../lib/Context";
+import Icon from "../layout/components/Icon";
 
 export default function Register() {
-	const { host, setPage, _setToken } = useContext(context);
+	const [advanced, setAdvanced] = useState(false);
+	const { host, setPage, _setToken, setHost } = useContext(context);
 	const [error, setError] = useState("");
+	const input = useRef(null);
 
 	async function Registering(event) {
 		event.preventDefault(true);
@@ -33,6 +36,18 @@ export default function Register() {
 		}, 2_000);
 	}, [error]);
 
+	function ChangeHost() {
+		if (!input.current) return;
+		if (!input.current.value) return;
+		if (!input.current.value.trim().length) return;
+
+		let query = input.current.value.trim();
+		if (query.endsWith("/")) query = query.slice(0, query.length - 1);
+		setHost(query);
+
+		input.current.value = "";
+	}
+
 	return (
 		<form
 			onSubmit={Registering}
@@ -44,7 +59,7 @@ export default function Register() {
 					<header className="text-4xl font-bold bg-gradient-to-br py-1 from-primary to-accent text-transparent bg-clip-text">
 						Create an account
 					</header>
-					<span className="text-xs opacity-40">Enter your details below</span>
+					<span className="text-xs opacity-40">Enter your details below.</span>
 				</div>
 				<div id="form_data" className="w-5/12 flex flex-col gap-4">
 					<input
@@ -82,6 +97,35 @@ export default function Register() {
 				>
 					Login in
 				</button>
+			</div>
+			<div
+				onClick={() => setAdvanced(!advanced)}
+				className="w-full cursor-pointer flex items-center justify-center gap-2"
+			>
+				Advanced <Icon name={advanced ? "TbChevronUp" : "TbChevronDown"} />
+			</div>
+			<div
+				className={`${
+					advanced ? "flex" : "hidden"
+				} flex-col gap-1 w-full h-fit`}
+			>
+				<div className="w-full h-16 bg-secondary items-center justify-center gap-1 rounded-2xl flex p-2">
+					<span className="text-nowrap text-xs opacity-40 p-2">
+						Server URL:{" "}
+					</span>
+					<input
+						placeholder={host}
+						ref={input}
+						type="text"
+						className="w-full h-full outline-none bg-background rounded-2xl p-2"
+					/>
+					<div
+						onClick={() => ChangeHost()}
+						className="flex cursor-pointer items-center justify-center rounded-2xl bg-background p-4"
+					>
+						<Icon name="TbThumbUp" className="fill-text" />
+					</div>
+				</div>
 			</div>
 		</form>
 	);
