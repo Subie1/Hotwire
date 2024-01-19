@@ -5,9 +5,10 @@ import { MdLoop } from "react-icons/md";
 import useIsPlaying from "../../hooks/useIsPlaying";
 import AddSong from "./AddSong";
 import PeekBar from "./PeekBar";
+import Volume from "./Volume";
 
 export default function MusicPlayer() {
-	const {
+const {
 		song,
 		player,
 	} = useContext(context);
@@ -78,6 +79,7 @@ export default function MusicPlayer() {
 				<div className="w-full h-fit rounded-xl bg-secondary p-2 flex flex-col items-center justify-center">
 					<PeekBar videoId="music_player" />
 				</div>
+				<Volume player={document.getElementById("music_player")} />
 				<AddSong />
 			</div>
 		</div>
