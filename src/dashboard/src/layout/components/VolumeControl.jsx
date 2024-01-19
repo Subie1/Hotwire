@@ -1,5 +1,5 @@
 import { context } from "../../lib/Context";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import Icon from "./Icon";
 import { useLocalStorage } from "@uidotdev/usehooks";
 import Slider from "./Slider";

@@ -4,7 +4,7 @@ import { context } from "../../lib/Context";
 import { MdLoop } from "react-icons/md";
 import useIsPlaying from "../../hooks/useIsPlaying";
 import AddSong from "./AddSong";
-import Volume from "./VolumeControl";
+import VolumeControl from "./VolumeControl";
 import Slider from "./Slider";
 
 export default function MusicPlayer() {
@@ -106,7 +106,7 @@ export default function MusicPlayer() {
 						{formatTime(player.duration || 0)}
 					</span>
 				</div>
-				<Volume />
+				<VolumeControl />
 				<AddSong />
 			</div>
 		</div>
