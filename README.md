@@ -6,11 +6,11 @@
   <a href="https://github.com/Subie1/Hotwire/releases"><img src="https://img.shields.io/github/release/Subie1/Hotwire.svg"></a>
 </p>
 
-<p float="center">
-  <img src="https://github.com/Subie1/Hotwire/assets/133152722/60f9befe-763b-4095-bfc5-d15f4afc617f" width="45%" />
-  <img src="https://github.com/Subie1/Hotwire/assets/133152722/4099bda9-447d-4bd4-937a-7b7d7924a2df" width="45%" />
-  <img src="https://github.com/Subie1/Hotwire/assets/133152722/dfb0ea2f-531c-4cf8-ad64-ad832bde6c5d" width="45%" />
-  <img src="https://github.com/Subie1/Hotwire/assets/133152722/07f86eda-b831-4783-90aa-3d9e9c040205" width="45%" />
+<p float="center" align="center">
+  <img src="https://github.com/Subie1/Hotwire/assets/133152722/60f9befe-763b-4095-bfc5-d15f4afc617f" width="45%" float="center" />
+  <img src="https://github.com/Subie1/Hotwire/assets/133152722/4099bda9-447d-4bd4-937a-7b7d7924a2df" width="45%" float="center" />
+  <img src="https://github.com/Subie1/Hotwire/assets/133152722/dfb0ea2f-531c-4cf8-ad64-ad832bde6c5d" width="45%" float="center" />
+  <img src="https://github.com/Subie1/Hotwire/assets/133152722/07f86eda-b831-4783-90aa-3d9e9c040205" width="45%" float="center" />
 </p>
 
 # > Download
