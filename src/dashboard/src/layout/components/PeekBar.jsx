@@ -50,7 +50,10 @@ export default function PeekBar({ videoId }) {
 		if (!videoRef.current || !videoRef.current.duration) return;
 
 		const seekBarRect = seekBarRef.current.getBoundingClientRect();
-		const seekPosition = (event.clientX - seekBarRect.left) / seekBarRect.width;
+		let seekPosition = (event.clientX - seekBarRect.left) / seekBarRect.width;
+
+		// Ensure seekPosition is within the valid range
+		seekPosition = Math.max(0, Math.min(1, seekPosition));
 
 		const newTime = videoRef.current.duration * seekPosition;
 		setCurrentTime(newTime);
