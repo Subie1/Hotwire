@@ -29,36 +29,12 @@
 		--accent: #03bafc;
 	}
 
-	.mustard {
-		--text: #ffffff;
-		--background: #0a0000;
-		--primary: #cb4444;
-		--secondary: #eebf24;
-		--accent: #e94200;
-	}
-
-	.grass {
-		--text: #edf2e4;
-		--background: #070803;
-		--primary: #c2d990;
-		--secondary: #6a8a26;
-		--accent: #aeda52;
-	}
-
-	.ash {
-		--text: #ede5e6;
-		--background: #110c0d;
-		--primary: #c4abae;
-		--secondary: #476653;
-		--accent: #7894a0;
-	}
-
-	.warm {
-		--text: #cbbe98;
-		--background: #292828;
-		--primary: #de6962;
-		--secondary: #61a782;
-		--accent: #e78a4e;
+	.dracula {
+		--text: #edeef1;
+		--background: #060709;
+		--primary: #abb2c0;
+		--secondary: #5a4352;
+		--accent: #936f75;
 	}
 }
 

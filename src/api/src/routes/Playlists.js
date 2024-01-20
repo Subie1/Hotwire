@@ -9,11 +9,11 @@ const playlists = MainStorage.box("playlists");
 const router = express.Router();
 router.use(require("../middleware/Authentication"));
 
-router.delete("/:id/delete", (req, res) => {
+router.delete("/:id", (req, res) => {
 	if (!playlists.has(req.params.id)) return res.status(404).end("No playlist was found with that id");
 	const playlist = playlists.get(req.params.id);
 	const user = User(req.headers.authorization);
-	if (playlist.id !== user.id)
+	if (playlist.author !== user.id)
 		return res.status(401).end("You don't have access to modify this playlist");
 	
 	playlists.delete(req.params.id);
@@ -25,7 +25,7 @@ router.delete("/:id/delete/:songId", (req, res) => {
 
 	const user = User(req.headers.authorization);
 	const playlist = playlists.get(req.params.id);
-	if (playlist.id !== user.id)
+	if (playlist.author !== user.id)
 		return res.status(401).end("You don't have access to modify this playlist");
 
 	const files = readdirSync(outputFolder, { withFileTypes: true })
@@ -53,7 +53,7 @@ router.put("/:id/add", (req, res) => {
 	const playlist = playlists.get(req.params.id);
 
 	const user = User(req.headers.authorization);
-	if (playlist.id !== user.id)
+	if (playlist.author !== user.id)
 		return res.status(401).end("You don't have access to modify this playlist");
 
 	const files = readdirSync(outputFolder, { withFileTypes: true })
@@ -98,7 +98,7 @@ router.get("/:id", (req, res) => {
 	const playlist = playlists.get(req.params.id);
 	const user = User(req.headers.authorization);
 
-	if (playlist.id !== user.id && playlist.private) return res.status(401).end("You don't have access to view this playlist");
+	if (playlist.author !== user.id && playlist.private) return res.status(401).end("You don't have access to view this playlist");
 	return res.status(200).json(playlist);
 });
 

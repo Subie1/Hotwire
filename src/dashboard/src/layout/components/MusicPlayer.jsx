@@ -56,12 +56,12 @@ export default function MusicPlayer() {
 			<div className="w-full flex items-center justify-between">
 				<div className="flex gap-1 items-center justify-center">
 					<div className="flex h-fit gap-2 bg-secondary p-2 rounded-xl w-fit">
-						<span className="text-xs opacity-70 bg-gradient-to-br from-primary to-accent text-transparent bg-clip-text">
+						<span className="text-xs opacity-70">
 							{song.artist ? song.artist : "Nothing playing"}
 						</span>
 					</div>
 					<div className="flex h-fit gap-2 bg-secondary p-2 rounded-xl w-fit">
-						<span className="text-xs opacity-70 bg-gradient-to-br from-primary to-accent text-transparent bg-clip-text">
+						<span className="text-xs opacity-70">
 							{song.name ? song.name : "Nothing playing"}
 						</span>
 					</div>

@@ -11,7 +11,9 @@ export default function Sidebar() {
 		setSongs,
 		setPlaylistsOpen,
 		setCurrentPlaylist,
-		currentPlaylist
+		currentPlaylist,
+		setContextElements,
+		setPlaylists,
 	} = useContext(context);
 
 	const [render, setRender] = useState([]);
@@ -30,6 +32,12 @@ export default function Sidebar() {
 				setSongs(data.songs);
 				setCurrentPlaylist(id);
 			});
+	}
+
+	async function DeletePlaylist(id) {
+		if (currentPlaylist && currentPlaylist === id) setCurrentPlaylist(false);
+		await axios.delete(`${host}/api/playlists/${id}`);
+		setPlaylists(playlists.filter(p => p !== id));
 	}
 
 	useEffect(() => {
@@ -64,6 +72,7 @@ export default function Sidebar() {
 				<div className="w-full h-full flex flex-col gap-1">
 					{render.map((playlist) => (
 						<div
+							onContextMenu={() => setContextElements([{ name: "Share", icon: "TbExternalLink", action: () => navigator.clipboard.writeText(`${host}/api/playlists/${playlist.id}`) }, { name: "Delete", icon: "TbTrash", action: () => DeletePlaylist(playlist.id) }])}
 							onClick={() => ChangeTo(0, playlist.id)}
 							key={playlist.id}
 							className="transition-all group text-lg duration-200 group hover:scale-105 flex relative w-fit h-fit items-center justify-center cursor-pointer rounded-xl p-3 bg-gradient-to-br from-primary to-accent text-text"

@@ -32,10 +32,7 @@ export default function Settings() {
 						{ name: "Light", value: "light" },
 						{ name: "Dark", value: "dark" },
 						{ name: "Cotton Candy", value: "cotton-candy" },
-						{ name: "Mustard", value: "mustard" },
-						{ name: "Warm", value: "warm" },
-						{ name: "Ash", value: "ash" },
-						{ name: "Grass", value: "grass" },
+						{ name: "Dracula", value: "dracula" },
 					]}
 					onChange={(query) => setTheme(query)}
 				/>

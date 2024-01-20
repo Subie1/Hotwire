@@ -30,6 +30,7 @@ export function ContextProvider() {
 
 	const [canLoad, setCanLoad] = useState(false);
 	const [_token, _setToken] = useLocalStorage("_token", false);
+	
 	const [isDownloadOpen, setDownloadOpened] = useState(false);
 	const [isPlaylistsOpen, setPlaylistsOpen] = useState(false);
 	const [isAddOpen, setAddOpen] = useState(false);

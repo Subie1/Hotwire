@@ -1,7 +1,7 @@
 import { useContext, useRef } from "react";
-import { context } from "../../lib/Context";
+import { context } from "../../../lib/Context";
 import axios from "axios";
-import Icon from "./Icon";
+import Icon from "../Icon";
 
 export default function AddModel() {
 	const input = useRef(null);

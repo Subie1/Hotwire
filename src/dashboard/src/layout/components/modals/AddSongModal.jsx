@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
-import { context } from "../../lib/Context";
+import { context } from "../../../lib/Context";
 import axios from "axios";
-import Icon from "./Icon";
+import Icon from "../Icon";
 
 export default function AddToPlaylistModel() {
 	const [queries, setQueries] = useState([]);
