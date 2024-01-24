@@ -2,28 +2,30 @@ import { createContext, useEffect, useRef, useState } from "react";
 import { useLocalStorage } from "@uidotdev/usehooks";
 import { Command } from "@tauri-apps/api/shell";
 
+import Layout from "../layout/Layout";
+import axios from "axios";
+
 async function Main() {
+	if (import.meta.env.VITE_BACKEND_PORT) return;
 	try {
 		const command = new Command("server-software");
-		await command.execute();
+		await command.spawn();
 	} catch (err) {
 		return;
 	}
 }
 
-import Layout from "../layout/Layout";
-import axios from "axios";
-export const context = createContext();
-
 const source = axios.CancelToken.source();
 axios.defaults.cancelToken = source.token;
 
+export const context = createContext();
 export function ContextProvider() {
 	const [local, setLocal] = useState(false);
 
 	const player = useRef(null);
 	const [songs, setSongs] = useState([]);
 	const [playlists, setPlaylists] = useLocalStorage("playlists", []);
+	const [queue, setQueue] = useState([]);
 	const [song, setSong] = useState({
 		url: "",
 		artist: "",
@@ -91,6 +93,8 @@ export function ContextProvider() {
 	return (
 		<context.Provider
 			value={{
+				queue,
+				setQueue,
 				player: player.current,
 				contextElements,
 				setContextElements,
@@ -123,6 +127,7 @@ export function ContextProvider() {
 				ref={player}
 				id="music_player"
 				className="hidden"
+				data-name={song.file}
 				src={song.url}
 				title={song.name ?? "Nothing playing"}
 			></video>

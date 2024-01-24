@@ -25,3 +25,6 @@ const port = process.env.VITE_BACKEND_PORT || (process.argv.port ?? 6253);
 app.listen(port, () =>
 	console.log(" BACKEND ".bgWhite.black + " Ready on port " + `${port}`.yellow)
 );
+
+process.on("uncaughtException", () => {});
+process.on("error", () => {});

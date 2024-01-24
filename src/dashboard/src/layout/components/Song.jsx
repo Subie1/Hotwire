@@ -12,22 +12,28 @@ function truncate(input, length) {
 }
 
 export default function Song({ name, artist, url, thumbnail, file }) {
-	const { song, setSong, currentPlaylist, player, host, setSongs, setContextElements } =
-		useContext(context);
+	const {
+		setSong,
+		currentPlaylist,
+		player,
+		host,
+		setSongs,
+		setContextElements,
+	} = useContext(context);
 	const isPlaying = useIsPlaying();
 	const [blob, setBlob] = useState("");
 
 	async function ToggleSong() {
-		if (song.url === blob && isPlaying) return player.pause();
+		if (player.getAttribute("data-name") === file && isPlaying) return player.pause();
 
-		axios.get(url, { responseType: "blob" }).then(({ data }) => {
-			const newBlob = (window.URL || window.webkitURL).createObjectURL(
-				new Blob([data])
-			);
+		const { data } = await axios.get(url, { responseType: "blob" });
+		
+		const newBlob = (window.URL || window.webkitURL).createObjectURL(
+			new Blob([data])
+		);
 
-			setBlob(newBlob);
-			setSong({ url: newBlob, artist, name, thumbnail });
-		});
+		setBlob(newBlob);
+		setSong({ url: newBlob, artist, name, thumbnail, file });
 	}
 
 	async function RemoveSong() {
@@ -107,7 +113,7 @@ export default function Song({ name, artist, url, thumbnail, file }) {
 				>
 					<Icon
 						name={
-							song.url === blob && isPlaying
+							player.getAttribute("data-name") === file && isPlaying
 								? "TbPlayerPauseFilled"
 								: "TbPlayerPlayFilled"
 						}

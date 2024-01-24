@@ -23,5 +23,5 @@ async function StartFrontend() {
 	});
 }
 
-// StartBackend();
+StartBackend();
 StartFrontend();

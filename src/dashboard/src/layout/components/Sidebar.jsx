@@ -19,20 +19,20 @@ export default function Sidebar() {
 
 	const [render, setRender] = useState([]);
 
-	function ChangeTo(index, id) {
-		if (currentPlaylist && currentPlaylist === id) return;
+	function ChangeTo(index, playlist) {
 		setPage(index);
-		if (!id) return setCurrentPlaylist(false);
 
-		axios
-			.get(`${host}/api/playlists/${id}`)
-			.then(({ data }) => {
-				if (!data) return;
-				if (!data.name) return;
+		if (!playlist) return setCurrentPlaylist(false);
+		if (!playlist.id) return setCurrentPlaylist(false);
+		if (currentPlaylist && currentPlaylist === playlist.id) return;
 
-				setSongs(data.songs);
-				setCurrentPlaylist(id);
-			});
+		axios.get(`${host}/api/playlists/${playlist.id}`).then(({ data }) => {
+			if (!data) return;
+			if (!data.name) return;
+
+			setSongs(data.songs);
+			setCurrentPlaylist(playlist.id);
+		});
 	}
 
 	async function DeletePlaylist(id) {
@@ -74,7 +74,7 @@ export default function Sidebar() {
 					{render.map((playlist) => (
 						<div
 							onContextMenu={() => setContextElements([{ name: "Share", icon: "TbExternalLink", action: () => writeText(`${host}/api/playlists/${playlist.id}`) }, { name: "Delete", icon: "TbTrash", action: () => DeletePlaylist(playlist.id) }])}
-							onClick={() => ChangeTo(0, playlist.id)}
+							onClick={() => ChangeTo(0, playlist)}
 							key={playlist.id}
 							className="transition-all group text-lg duration-200 group hover:scale-105 flex relative w-fit h-fit items-center justify-center cursor-pointer rounded-xl p-3 bg-gradient-to-br from-primary to-accent text-text"
 						>

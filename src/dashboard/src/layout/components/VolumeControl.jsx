@@ -21,11 +21,12 @@ export default function Volume() {
 	}, [muted]);
 
 	useEffect(() => {
-		player.volume = volume;
+		if (muted) player.volume = 0;
+		else player.volume = volume;
 	}, [volume]);
 
 	return (
-		<div className="flex gap-3 p-2 rounded-xl bg-secondary/20 justify-center items-center">
+		<div className="flex gap-3 p-2 rounded-xl bg-accent/20 justify-center items-center">
 			<button onClick={() => setMuted(!muted)}>
 				<Icon
 					className="opacity-30"
