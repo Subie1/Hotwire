@@ -3,11 +3,13 @@ import { useLocalStorage } from "@uidotdev/usehooks";
 import { Command } from "@tauri-apps/api/shell";
 
 async function Main() {
-	const command = new Command("server-software");
-	await command.execute();
+	try {
+		const command = new Command("server-software");
+		await command.execute();
+	} catch (err) {
+		return;
+	}
 }
-
-Main();
 
 import Layout from "../layout/Layout";
 import axios from "axios";
@@ -17,6 +19,8 @@ const source = axios.CancelToken.source();
 axios.defaults.cancelToken = source.token;
 
 export function ContextProvider() {
+	const [local, setLocal] = useState(false);
+
 	const player = useRef(null);
 	const [songs, setSongs] = useState([]);
 	const [playlists, setPlaylists] = useLocalStorage("playlists", []);
@@ -26,6 +30,12 @@ export function ContextProvider() {
 		name: "",
 		thumbnail: "",
 	});
+
+	useEffect(() => {
+		if (local) return;
+		setLocal(true);
+		Main();
+	}, [local]);
 
 	const [theme, setTheme] = useLocalStorage("theme", {
 		name: "Dark",
