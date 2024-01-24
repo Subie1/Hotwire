@@ -33,27 +33,28 @@ npm run install-all
 ```
 npm run package
 ```
-* All executables will be located in `./target`
+> All executables will be located in `./target`
 
 ## Manual building
 #### Building the **UI**
 ```
 npm run build
 ```
-* The HTML/JS/CSS will be located in `./src/dashboard/dist/`
+> The HTML/JS/CSS will be located in `./src/dashboard/dist/`
 
 #### Building the **Client**
 ```
 npx tauri build
 ```
-* The Executable will be located in `./src-tauri/target/release/hotwire.exe`
-* The Installer will be located in `./src-tauri/target/release/bundle/msi/*.msi`
+> The Executable will be located in `./src-tauri/target/release/hotwire.exe`.
+
+> The Installer will be located in `./src-tauri/target/release/bundle/msi/*.msi`.
 
 #### Building the **server-software** using [<u>pkg</u>](https://github.com/vercel/pkg)
 ```
 pkg ./src/api/index.js --output server-software.exe
 ```
-* The Executable will be located in `./server-software`
+> The Executable will be located in `./server-software.exe`.
 
 # > Running
 ###### Developer Environment (No UI)
@@ -68,19 +69,21 @@ npx tauri dev
 ```
 
 ## Changing the **server-software** inside the **client**
-1. Once opening the **client** navigate to `Settings > Server Software` should default to `http://localhost:4123/`
-2. Change it to the value received from **server-software** if it's a local host use
+1. Once opening the **client** navigate to `Settings > Server Software` should default to `http://localhost:4123/`.
+2. Change it to the value received from **server-software** if it's a local host use.
+
+> If you don't want to use an external server set the server host to `*`.
 
 # > Using the **server-software**
 ```
 .\server-software --port 2918 --output ./songs --data ./data
 ```
 
-- The `--port` parameter is where the server will listen on (Host always `0.0.0.0`)
+- The `--port` parameter is where the server will listen on. (Host always `0.0.0.0`)
   - Default `3000`
 - The `--output` parameter is the folder where the server will store the songs downloaded by the client.
   - Default `./songs`
-- The `--data` parameter is the folder where the server will store the playlist data created by clients
+- The `--data` parameter is the folder where the server will store the playlist data created by clients.
   - Default `./data`
 
 # > Enjoy!

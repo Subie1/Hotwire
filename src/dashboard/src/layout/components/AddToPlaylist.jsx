@@ -8,7 +8,7 @@ export default function AddToPlaylist() {
 	return (
 		<div
 			onClick={() => setAddOpen(true)}
-			className="p-2 cursor-pointer transition-all duration-300 hover:scale-95 sticky w-fit h-fit rounded-lg flex items-center justify-center text-lg bg-secondary"
+			className="p-2 cursor-pointer transition-all duration-300 hover:scale-95 sticky w-fit h-fit rounded-lg flex items-center justify-center text-lg bg-accent/30"
 		>
 			<Icon name="TbPlus" />
 		</div>

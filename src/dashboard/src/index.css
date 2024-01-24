@@ -6,35 +6,35 @@
 
 @layer base {
 	:root {
-		--text: #0f0f0f;
-		--background: #ffffff;
-		--primary: #cd797d;
-		--secondary: #e6e6e6;
-		--accent: #66b1cd;
+		--text: 15 15 15;
+		--background: 255 255 255;
+		--primary: 205 121 125;
+		--secondary: 230 230 230;
+		--accent: 102 177 205;
 	}
 
 	.dark {
-		--text: #f0f0f0;
-		--background: #000000;
-		--primary: #fe7e84;
-		--secondary: #141414;
-		--accent: #04bbfc;
+		--text: 240 240 240;
+		--background: 0 0 0;
+		--primary: 254 126 132;
+		--secondary: 20 20 20;
+		--accent: 4 187 252;
 	}
 
 	.cotton-candy {
-		--text: #0f0f0f;
-		--background: #fff7f7;
-		--primary: #fc9399;
-		--secondary: #eed9d9;
-		--accent: #03bafc;
+		--text: 15 15 15;
+		--background: 255 247 247;
+		--primary: 252 147 153;
+		--secondary: 238 217 217;
+		--accent: 3 186 252;
 	}
 
 	.dracula {
-		--text: #edeef1;
-		--background: #060709;
-		--primary: #abb2c0;
-		--secondary: #5a4352;
-		--accent: #936f75;
+		--text: 237 238 241;
+		--background: 6 7 9;
+		--primary: 171 178 192;
+		--secondary: 90 67 82;
+		--accent: 147 111 117;
 	}
 }
 

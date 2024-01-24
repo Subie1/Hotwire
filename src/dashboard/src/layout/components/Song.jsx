@@ -71,7 +71,7 @@ export default function Song({ name, artist, url, thumbnail, file }) {
 					  ])
 					: ""
 			}
-			className="rounded-lg z-10 m-1 left bg-secondary w-fit h-fit p-4 gap-2 inline-block"
+			className="rounded-lg z-10 m-1 left bg-primary/10 w-fit h-fit p-4 space-y-2 inline-block"
 		>
 			<div className="w-full md:w-32 md:h-32 rounded-lg flex items-center justify-center bg-background overflow-hidden">
 				{thumbnail ? (
@@ -88,7 +88,7 @@ export default function Song({ name, artist, url, thumbnail, file }) {
 			</div>
 			<div className="flex w-full justify-between items-center">
 				<div className="flex flex-col w-fit h-fit">
-					<h1 className="text-white">{truncate(name, 8)}</h1>
+					<h1 className="text-text/80">{truncate(name, 8)}</h1>
 					<span className="text-xs text-gray-500">{truncate(artist, 12)}</span>
 					{currentPlaylist ? (
 						<a
@@ -103,7 +103,7 @@ export default function Song({ name, artist, url, thumbnail, file }) {
 				</div>
 				<a
 					onClick={() => ToggleSong()}
-					className="w-fit cursor-pointer h-fit rounded-lg p-2 bg-gradient-to-br from-primary to-accent text-secondary"
+					className="w-fit cursor-pointer h-fit rounded-lg p-2 bg-gradient-to-br from-primary to-accent text-background/40 fill-current"
 				>
 					<Icon
 						name={

@@ -25,7 +25,7 @@ export default function Volume() {
 	}, [volume]);
 
 	return (
-		<div className="flex gap-3 p-2 rounded-xl bg-secondary justify-center items-center">
+		<div className="flex gap-3 p-2 rounded-xl bg-secondary/20 justify-center items-center">
 			<button onClick={() => setMuted(!muted)}>
 				<Icon
 					className="opacity-30"

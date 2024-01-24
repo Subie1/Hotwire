@@ -1,5 +1,12 @@
 import { createContext, useEffect, useRef, useState } from "react";
 import { useLocalStorage } from "@uidotdev/usehooks";
+import { Command } from "@tauri-apps/api/shell";
+
+async function Main() {
+	await Command.sidecar("binaries/server-software").execute();
+}
+
+Main();
 
 import Layout from "../layout/Layout";
 import axios from "axios";
@@ -23,23 +30,25 @@ export function ContextProvider() {
 		name: "Dark",
 		value: "dark",
 	});
-	const [host, setHost] = useLocalStorage(
-		"host",
-		`http://localhost:${import.meta.env.VITE_BACKEND_PORT ?? 3000}`
-	);
+	const [host, setHost] = useLocalStorage("host", `*`);
+
+	useEffect(() => {
+		if (host !== "*") return;
+		setHost("http://localhost:3000");
+	}, [host]);
 
 	const [canLoad, setCanLoad] = useState(false);
 	const [_token, _setToken] = useLocalStorage("_token", false);
-	
+
 	const [isDownloadOpen, setDownloadOpened] = useState(false);
 	const [isPlaylistsOpen, setPlaylistsOpen] = useState(false);
 	const [isAddOpen, setAddOpen] = useState(false);
-	
+
 	const [contextElements, setContextElements] = useState([]);
 
 	const [page, setPage] = useState(-1);
 	const [currentPlaylist, setCurrentPlaylist] = useState(false);
-	
+
 	useEffect(() => {
 		if (!_token) return;
 
@@ -96,7 +105,7 @@ export function ContextProvider() {
 				playlists,
 				setPlaylists,
 				theme,
-				setTheme
+				setTheme,
 			}}
 		>
 			<video
