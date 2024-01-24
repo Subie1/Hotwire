@@ -3,7 +3,8 @@ import { useLocalStorage } from "@uidotdev/usehooks";
 import { Command } from "@tauri-apps/api/shell";
 
 async function Main() {
-	await Command.sidecar("binaries/server-software").execute();
+	const command = new Command("server-software");
+	await command.execute();
 }
 
 Main();
@@ -34,7 +35,7 @@ export function ContextProvider() {
 
 	useEffect(() => {
 		if (host !== "*") return;
-		setHost("http://localhost:3000");
+		setHost("http://localhost:6253");
 	}, [host]);
 
 	const [canLoad, setCanLoad] = useState(false);

@@ -21,7 +21,7 @@ app.use("/api/upload", require("./src/routes/Upload"));
 app.use("/api/auth", require("./src/routes/Authentication"));
 app.use("/api/users", require("./src/routes/Users"));
 
-const port = process.env.VITE_BACKEND_PORT || (process.argv.port ?? 3000);
+const port = process.env.VITE_BACKEND_PORT || (process.argv.port ?? 6253);
 app.listen(port, () =>
 	console.log(" BACKEND ".bgWhite.black + " Ready on port " + `${port}`.yellow)
 );

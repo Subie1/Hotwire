@@ -1,30 +1,16 @@
 const { enable } = require("colors");
-const { exec, execSync } = require("child_process");
+const { execSync } = require("child_process");
 const { existsSync, mkdirSync, copyFileSync, readdirSync } = require("fs");
 const { join } = require("path");
+
+enable();
 
 let extension = "";
 if (process.platform === "win32") {
 	extension = ".exe";
 }
 
-function execute(command){
-    return new Promise((resolve, reject) => {
-		exec(command, function(error, stdout) { if (error) return reject(); resolve(stdout); });
-	})
-};
-
-enable();
-
 async function Main() {
-	const data = await execute("rustc -vV");
-	const info = /host: (\S+)/g.exec(data)[1];
-
-	if (!info) {
-		console.error("\t PACKAGE ".bgRed.black + "Failed to detect OS");
-		return process.exit(-1)
-	}
-
 	if (!existsSync("./target")) {
 		await mkdirSync("./target");
 		console.log("\t PACKAGE ".bgCyan.black + " Created " + "./target".yellow);
@@ -33,21 +19,21 @@ async function Main() {
 	console.log("\t PACKAGE ".bgCyan.black + " Building " + "Server".yellow);
 	try {
 		await execSync(
-			"pkg ./src/api/index.js --target latest --output ./target/server-software.exe",
+			`pkg ./src/api/index.js --target latest --output ./target/server-software${extension}`,
 			{ cwd: process.cwd() }
 		);
 	} catch {}
 
-	if (!existsSync("./src-tauri/binaries/")) {
-		await mkdirSync("./src-tauri/binaries/", { recursive: true });
+	if (!existsSync("./src-tauri/assets/")) {
+		await mkdirSync("./src-tauri/assets/", { recursive: true });
 		console.log(
-			"\t PACKAGE ".bgCyan.black + " Created " + "./src-tauri/binaries/".yellow
+			"\t PACKAGE ".bgCyan.black + " Created " + "./src-tauri/assets/".yellow
 		);
 	}
-	
+
 	await copyFileSync(
 		"./target/server-software.exe",
-		`./src-tauri/binaries/server-software-${info}${extension}`
+		`./src-tauri/assets/server-software${extension}`
 	);
 
 	console.log("\t PACKAGE ".bgCyan.black + " Built Server".green);
