@@ -11,7 +11,7 @@ import axios from "axios";
 export default function MusicPlayer() {
 	const [currentTime, setCurrentTime] = useState(0);
 	const [duration, setDuration] = useState(0);
-	const { song, player, currentPlaylist, songs, setSong, host } = useContext(context);
+	const { song, player, songs, setSong, host } = useContext(context);
 	const isPlaying = useIsPlaying();
 
 	function ToggleSong() {
@@ -33,7 +33,6 @@ export default function MusicPlayer() {
 	}, [player]);
 
 	function NextSong() {
-		if (!currentPlaylist) return;
 		if (songs.length === 0) return;
 
 		let queue = 0;
@@ -42,7 +41,7 @@ export default function MusicPlayer() {
 			.indexOf(player.getAttribute("data-name"));
 
 		if (currentSong === -1) return;
-		if (currentSong === songs.length - 1) queue = 0;
+		if (currentSong >= songs.length - 1) queue = 0;
 		else queue = currentSong + 1;
 
 		const result = songs[queue];
@@ -61,7 +60,6 @@ export default function MusicPlayer() {
 	}
 
 	function PreviousSong() {
-		if (!currentPlaylist) return;
 		if (songs.length === 0) return;
 
 		let queue = 0;
@@ -70,7 +68,7 @@ export default function MusicPlayer() {
 			.indexOf(player.getAttribute("data-name"));
 
 		if (currentSong === -1) return;
-		if (currentSong === 0) queue = songs.length - 1;
+		if (currentSong <= 0) queue = songs.length - 1;
 		else queue = currentSong - 1;
 
 		const result = songs[queue];
